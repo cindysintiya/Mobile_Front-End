@@ -1,0 +1,11 @@
+- Ctrl + Shift + P, choose Flutter : New Project
+- choose your folder, OK
+- rename project filename, OK
+- replace main.dart file from lib folder with main.dart file from this github/ repo
+- copy and add new folder assets with all the files into project folder
+- replace pubspec.yaml file from project folder with pubspec.yaml file from this github/ repo
+
+- open vscode
+- open folder/ file : main.dart
+- F5 (or Run > Start Debugging)
+- and wait...

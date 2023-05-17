@@ -1,0 +1,17 @@
+- Ctrl + Shift + P, choose Flutter : New Project
+- choose your folder, OK
+- rename project filename, OK
+- replace main.dart file from lib folder with main.dart file from this github/ repo
+- copy and add new folder assets and profile with all the files into project folder
+
+- open vscode
+- open folder/ file : main.dart
+- F5 (or Run > Start Debugging)
+- and wait...
+
+- to show the network image with web, just like CORS from express js, img must from the same host/ domain
+- that's why, we must :
+--- open terminal
+--- type : flutter run --web-renderer html
+--- type/ choose : 2
+--- and wait...
