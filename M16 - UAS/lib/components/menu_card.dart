@@ -36,7 +36,7 @@ class _MenuCardState extends State<MenuCard> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateBurger(back: false)));
         },
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,10 +44,14 @@ class _MenuCardState extends State<MenuCard> {
               Flexible(
                 child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.only(bottom: 5),
                     child: LayoutBuilder(   // biar ukuran ikut mamak
                       builder: (BuildContext context, BoxConstraints constraints) {
-                        return StackBurger(source: products[i], padding: 15, width: 150,);
+                        double padding = 15;
+                        if (products[i]['TtlQty'] > 4) {
+                          padding = (constraints.maxHeight-55)/products[i]['TtlQty'];
+                        }
+                        return StackBurger(source: products[i], padding: padding, width: (constraints.maxHeight/products[i]['TtlQty'])*5);
                       }
                     ),
                   ),

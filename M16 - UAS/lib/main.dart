@@ -4,14 +4,17 @@ import 'package:b_kreazi/providers/navigation_provider.dart';
 import 'package:b_kreazi/providers/burger_provider.dart';
 import 'package:b_kreazi/providers/order_provider.dart';
 import 'package:b_kreazi/providers/user_provider.dart';
-import 'package:b_kreazi/providers/officialmenu_provider.dart';
 import 'package:b_kreazi/providers/notification_provider.dart';
+import 'package:b_kreazi/providers/officialmenu_provider.dart';
+import 'package:b_kreazi/providers/creation_provider.dart';
 import 'package:b_kreazi/components/custom_color.dart';
 import 'package:b_kreazi/screens/home_screen.dart';
+import 'package:b_kreazi/screens/creation_screen.dart';
 import 'package:b_kreazi/screens/order_screen.dart';
 import 'package:b_kreazi/pages/user_profile.dart';
 import 'package:b_kreazi/pages/all_menu.dart';
 import 'package:b_kreazi/pages/notifications.dart';
+import 'package:b_kreazi/pages/my_kreazi.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -20,8 +23,9 @@ void main() {
       ChangeNotifierProvider(create: (_) => BurgerProvider()),
       ChangeNotifierProvider(create: (_) => OrderProvider()),
       ChangeNotifierProvider(create: (_) => UserProvider()),
-      ChangeNotifierProvider(create: (_) => OfficialMenuProvider()),
       ChangeNotifierProvider(create: (_) => NotificationProvider()),
+      ChangeNotifierProvider(create: (_) => OfficialMenuProvider()),
+      ChangeNotifierProvider(create: (_) => CreationProvider()),
     ],
     child: const MyApp()
     )
@@ -61,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final provNotif = Provider.of<NotificationProvider>(context);
     final List pages = [
       const Home(title: 'B_Kreazi'),
-      const OrderScreen(title: 'Order'),
+      const Creation(title: 'Postingan'),
+      const OrderScreen(title: 'Pesanan'),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -140,6 +145,14 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('Notifikasi'),
               subtitle: const Text('Pengingat pesanan'),
             ),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const MyKreazi()));
+              },
+              leading: const Icon(Icons.emoji_objects_outlined),
+              title: const Text('Kreazi-ku'),
+              subtitle: const Text('Kreazi saya, Kreazi Favorit'),
+            ),
           ],
         ),
       ),
@@ -159,6 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.home_outlined), 
             activeIcon: Icon(Icons.home_rounded),
             label: 'Home', 
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.lightbulb_outline_rounded), 
+            activeIcon: Icon(Icons.tips_and_updates_rounded),
+            label: 'Creation', 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long_rounded), 

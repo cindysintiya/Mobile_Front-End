@@ -40,23 +40,23 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       TextButton(
                         onPressed: () {Navigator.pop(context);},
-                        child: const Center(child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Text('Default', style: TextStyle(color: Color.fromARGB(255, 195, 133, 0), fontSize: 17),),
+                        child: Center(child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text('Default', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: const Center(child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Text('Buka Kamera', style: TextStyle(color: Color.fromARGB(255, 195, 133, 0), fontSize: 17),),
+                        child: Center(child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text('Buka Kamera', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: const Center(child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Text('Buka Galeri', style: TextStyle(color: Color.fromARGB(255, 195, 133, 0), fontSize: 17),),
+                        child: Center(child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text('Buka Galeri', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
                       TextButton(

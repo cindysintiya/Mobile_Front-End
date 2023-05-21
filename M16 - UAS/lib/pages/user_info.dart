@@ -8,6 +8,8 @@ import 'package:b_kreazi/providers/navigation_provider.dart';
 import 'package:b_kreazi/providers/order_provider.dart';
 import 'package:b_kreazi/providers/user_provider.dart';
 import 'package:b_kreazi/providers/notification_provider.dart';
+import 'package:b_kreazi/providers/creation_provider.dart';
+import 'package:b_kreazi/providers/officialmenu_provider.dart';
 import 'package:b_kreazi/components/custom_color.dart';
 
 class UserInfo extends StatefulWidget {
@@ -27,6 +29,8 @@ class _UserInfoState extends State<UserInfo> {
     final provOrder = Provider.of<OrderProvider>(context);
     final provUser = Provider.of<UserProvider>(context);
     final provNotif = Provider.of<NotificationProvider>(context);
+    final provCreate = Provider.of<CreationProvider>(context);
+    final provMenu = Provider.of<OfficialMenuProvider>(context);
 
     return SingleChildScrollView(
       child: Padding(
@@ -249,7 +253,7 @@ class _UserInfoState extends State<UserInfo> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Simpan & Update data kontak saya ke Profile', overflow: TextOverflow.clip,),
+                  const Flexible(child: Text('Simpan & Update data kontak saya ke Profile', overflow: TextOverflow.fade,)),
                   Switch(
                     value: provBurger.saveUser, 
                     onChanged: (val) {
@@ -265,69 +269,158 @@ class _UserInfoState extends State<UserInfo> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    OutlinedButton(
-                      onPressed: () {provNav.orderState = 'Addition';},
-                      child: const Text('Kembali'),
-                    ),
-                    ElevatedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.orangeAccent)
+                    Flexible(
+                      child: OutlinedButton(
+                        onPressed: () {provNav.orderState = 'Addition';},
+                        child: const Text('Kembali', overflow: TextOverflow.ellipsis,),
                       ),
-                      onPressed: () {
-                        provBurger.addContactInfo();
-                        if (provBurger.nama.text.trim().isNotEmpty && provBurger.noHp.text.trim().isNotEmpty && provBurger.userInfo['No HP'].toString().length>=8 && provBurger.selPembayaran!='Pilih') {
-                          showDialog(
-                            context: context, 
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Konfirmasi Ulang', style: TextStyle(fontWeight: FontWeight.bold),),
-                                content: Text('Hai, ${provBurger.nama.text.trim()}. Kamu yakin akan membuat pesanan senilai ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.myOrder()['FinalPrice'])},- dengan metode pembayaran ${provBurger.selPembayaran}?'),
-                                actions: [
-                                  TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Batal', style: TextStyle(color: Colors.grey),)),
-                                  TextButton(
-                                    onPressed: () async {
-                                      Navigator.popUntil(context, (route) => route.isFirst); // back/ exit ampe home
-                                      provNav.orderState = 'Choose';
-                                      provOrder.addOrder = provBurger.myOrder();  // add to order
-                                      if (provBurger.saveUser) { // jika mau disave data
-                                        provUser.saveUser = {
-                                          'Nama' : provBurger.nama.text.trim(),
-                                          'No HP' : provBurger.noHp.text.trim(),
-                                          'Gender' : provBurger.gender
-                                        };
-                                      }
-                                      else if (provUser.userInfo.isEmpty) {  // jk tdk di save dan data profile mmg kosong
-                                        provBurger.resetContactInfo();
-                                      }
-                                      else {  // jk tdk di save dan data profile ada
-                                        provBurger.userInfo = provUser.userInfo;
-                                      }
+                    ),
+                    const SizedBox(width: 10,),
+                    Wrap(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      alignment: WrapAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: provCreate.allCreations.any((creation) => creation['Burger'].toString() == provBurger.finalComponent['Burger'].toString()) || provMenu.allMenu.any((menu) => menu['Burger'].toString() == provBurger.finalComponent['Burger'].toString())? null : () {
+                            provBurger.addContactInfo();
+                            if (provBurger.nama.text.trim().isNotEmpty && provBurger.noHp.text.trim().isNotEmpty && provBurger.userInfo['No HP'].toString().length>=8 && provBurger.selPembayaran!='Pilih') {
+                              showDialog(
+                                context: context, 
+                                builder: (BuildContext context) {
+                                  final provBurger = Provider.of<BurgerProvider>(context);
+                                  return AlertDialog(
+                                    title: const Text('Masukkan nama Kreazi-mu'),
+                                    content: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextFormField(
+                                          controller: provBurger.creationName,
+                                          autofocus: true,
+                                          maxLength: 15,
+                                          decoration: InputDecoration(
+                                            hintText: 'Nama Kreazi-mu disini',
+                                            errorText: provBurger.creationName.text.trim().isEmpty? 'Wajib diisi' : provCreate.allCreations.any((creation) => creation['Name'].toLowerCase()==provBurger.creationName.text.trim().toLowerCase())? 'Nama Kreazi ini sudah terdaftar' : null
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10,),
+                                        Text('Kamu akan membuat pesanan senilai ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.myOrder()['FinalPrice'])},- dengan metode pembayaran ${provBurger.selPembayaran} dan Kreazi ini juga akan diposting dihalaman Creation.', textAlign: TextAlign.justify, style: const TextStyle(fontSize: 14),)
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Batal', style: TextStyle(color: Colors.grey),)),
+                                      TextButton(
+                                        onPressed: () async {
+                                          provBurger.addContactInfo();
+                                          if (provBurger.creationName.text.trim().isNotEmpty && !provCreate.allCreations.any((creation) => creation['Name'].toLowerCase()==provBurger.creationName.text.trim().toLowerCase())) {
+                                            Navigator.popUntil(context, (route) => route.isFirst);
+                                            provNav.orderState = 'Choose';
+                                            provCreate.addCreations = provBurger.myCreation();
+                                            provCreate.addMyCreation = provBurger.myCreation();
+                                            provOrder.addOrder = provBurger.myOrder();  // add to order
+                                            if (provBurger.saveUser) {
+                                              provUser.saveUser = {
+                                                'Nama' : provBurger.nama.text.trim(),
+                                                'No HP' : provBurger.noHp.text.trim(),
+                                                'Gender' : provBurger.gender
+                                              };
+                                            }
+                                            else if (provUser.userInfo.isEmpty) {
+                                              provBurger.resetContactInfo();
+                                            }
+                                            else {
+                                              provBurger.userInfo = provUser.userInfo;
+                                            }
 
-                                      // auto send notif setelah ... menit 
-                                      final now = DateTime.now();
-                                      final time = DateTime(now.year, now.month, now.day, provBurger.waktu.hour, provBurger.waktu.minute);
-                                      await Future.delayed(
-                                        time.difference(now),
-                                        () {
-                                          provNotif.autoSend = {
-                                            'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss*',
-                                            'date': DateFormat('dd-MM-yyyy HH:mm').format(time), 
-                                            'type': 'Order', 
-                                            'read': false
-                                          };
-                                        }
-                                      );
-                                    },
-                                    child: const Text('Ya')
-                                  )
-                                ],
+                                            // auto send notif setelah ... menit 
+                                            final now = DateTime.now();
+                                            final time = DateTime(now.year, now.month, now.day, provBurger.waktu.hour, provBurger.waktu.minute);
+                                            await Future.delayed(
+                                              time.difference(now),
+                                              () {
+                                                provNotif.autoSend = {
+                                                  'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss*',
+                                                  'date': DateFormat('dd-MM-yyyy HH:mm').format(time),
+                                                  'type': 'Order', 
+                                                  'read': false
+                                                }; 
+                                              }
+                                            );
+                                          }
+                                        }, 
+                                        child: const Text('Posting dan Pesan')
+                                      )
+                                    ],
+                                  );
+                                }
+                              );
+                              provNav.currentIndex = 2;   // tampilkan halaman order
+                            }
+                          },
+                          child: Text(provCreate.allCreations.any((creation) => creation['Burger'].toString() == provBurger.finalComponent['Burger'].toString())? 'Kreazi terdaftar' : provMenu.allMenu.any((menu) => menu['Burger'].toString() == provBurger.finalComponent['Burger'].toString())? 'Menu terdaftar' : 'Posting Kreazi')
+                        ),
+                        const SizedBox(width: 10,),
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Colors.orangeAccent)
+                          ),
+                          onPressed: () {
+                            provBurger.addContactInfo();
+                            if (provBurger.nama.text.trim().isNotEmpty && provBurger.noHp.text.trim().isNotEmpty && provBurger.userInfo['No HP'].toString().length>=8 && provBurger.selPembayaran!='Pilih') {
+                              showDialog(
+                                context: context, 
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Konfirmasi Ulang', style: TextStyle(fontWeight: FontWeight.bold),),
+                                    content: Text('Hai, ${provBurger.nama.text.trim()}. Kamu yakin akan membuat pesanan senilai ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.myOrder()['FinalPrice'])},- dengan metode pembayaran ${provBurger.selPembayaran}?'),
+                                    actions: [
+                                      TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Batal', style: TextStyle(color: Colors.grey),)),
+                                      TextButton(
+                                        onPressed: () async {
+                                          Navigator.popUntil(context, (route) => route.isFirst); // back/ exit ampe home
+                                          provNav.orderState = 'Choose';
+                                          provOrder.addOrder = provBurger.myOrder();  // add to order
+                                          if (provBurger.saveUser) { // jika mau disave data
+                                            provUser.saveUser = {
+                                              'Nama' : provBurger.nama.text.trim(),
+                                              'No HP' : provBurger.noHp.text.trim(),
+                                              'Gender' : provBurger.gender
+                                            };
+                                          }
+                                          else if (provUser.userInfo.isEmpty) {  // jk tdk di save dan data profile mmg kosong
+                                            provBurger.resetContactInfo();
+                                          }
+                                          else {  // jk tdk di save dan data profile ada
+                                            provBurger.userInfo = provUser.userInfo;
+                                          }
+
+                                          // auto send notif setelah ... menit 
+                                          final now = DateTime.now();
+                                          final time = DateTime(now.year, now.month, now.day, provBurger.waktu.hour, provBurger.waktu.minute);
+                                          await Future.delayed(
+                                            time.difference(now),
+                                            () {
+                                              provNotif.autoSend = {
+                                                'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss*',
+                                                'date': DateFormat('dd-MM-yyyy HH:mm').format(time), 
+                                                'type': 'Order', 
+                                                'read': false
+                                              };
+                                            }
+                                          );
+                                        },
+                                        child: const Text('Ya')
+                                      )
+                                    ],
+                                  );
+                                }
                               );
                             }
-                          );
-                        }
-                        provNav.currentIndex = 1;   // tampilkan halaman order
-                      },
-                      child: const Text('Langsung Pesan'),
+                            provNav.currentIndex = 2;   // tampilkan halaman order
+                          },
+                          child: const Text('Langsung Pesan'),
+                        ),
+                      ],
                     ),
                   ],
                 ),

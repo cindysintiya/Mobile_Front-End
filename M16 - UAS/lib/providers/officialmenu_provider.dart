@@ -76,7 +76,7 @@ class OfficialMenuProvider extends ChangeNotifier {
         'Bayam' : {'qty': 1, 'price': 3000},
         'Roti Bawah': {'qty': 1, 'price': 3000},
       },
-      'TtlQty' : 6,
+      'TtlQty' : 7,
       'Discount' : 5000,
       'TtlPrice' : 15000,
       'Creator' : 'B_Kreazi Official',

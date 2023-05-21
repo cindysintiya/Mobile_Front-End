@@ -197,10 +197,10 @@ class _NotificationsState extends State<Notifications> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width <= 375 ? MediaQuery.of(context).size.width*0.55 : null,
+                                        Flexible(
                                           child: Text(notif['title'].toString(), overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                                         ),
+                                        const SizedBox(width: 5,),
                                         Text(notif['date'].split(' ')[0]==DateFormat('dd-MM-yyyy').format(DateTime.now())? notif['date'].split(' ')[1] : notif['date'].split(' ')[0],),
                                       ],
                                     ),

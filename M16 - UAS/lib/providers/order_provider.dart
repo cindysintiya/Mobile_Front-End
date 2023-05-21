@@ -29,12 +29,8 @@ class OrderProvider extends ChangeNotifier {
         'Gender': 'Perempuan',
         'Pembayaran': 'Kartu Kredit',
         'Waktu' : '11 Agustus 2023  20:20',
-        'Pick Up' : '20:30'
+        'Pick Up' : '21:22'
       },
-      'Order': {
-        'Code' : 987654,
-        'Status' : 'Siap untuk di Pick-Up'
-      }
     },
     {
       'Burger' : {
@@ -63,13 +59,9 @@ class OrderProvider extends ChangeNotifier {
         'No HP': '082111110347',
         'Gender': 'Perempuan',
         'Pembayaran': 'COD',
-        'Waktu' : '25 Mei 2023  19:19',
-        'Pick Up' : '20:20'
+        'Waktu' : '25 Mei 2023  12:34',
+        'Pick Up' : '13:57'
       },
-      'Order': {
-        'Code' : 123456,
-        'Status' : 'Sudah di Pick-Up'
-      }
     },
   ];
   List get myOrder => _myOrder;

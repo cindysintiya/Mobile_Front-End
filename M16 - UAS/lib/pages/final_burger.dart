@@ -27,9 +27,10 @@ class _FinalBurgerState extends State<FinalBurger> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            StackBurger(source: provBurger.finalComponent, padding: 17.5, width: 150,),
+            const SizedBox(height: 8,),
+            StackBurger(source: provBurger.finalComponent, padding: 17.5,),
             const SizedBox(height: 5,),
-            Text('Total Harga : ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.finalComponent['TtlPrice']-(provBurger.finalComponent.containsKey('Discount')?provBurger.finalComponent['Discount']:0))},-', style: const TextStyle(fontWeight: FontWeight.bold),),
+            Text('Harga Burger : ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.finalComponent['TtlPrice']-(provBurger.finalComponent.containsKey('Discount')?provBurger.finalComponent['Discount']:0))},-', style: const TextStyle(fontWeight: FontWeight.bold),),
             const Divider(),
             const Text('Tambahan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
             Column(

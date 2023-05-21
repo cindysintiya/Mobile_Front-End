@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -195,6 +196,9 @@ class BurgerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // CREATION NAME
+  TextEditingController creationName = TextEditingController();
+
   // SAVE USER CONTACT TO PROFILE
   bool _saveUser = true;
   bool get saveUser => _saveUser;
@@ -252,9 +256,23 @@ class BurgerProvider extends ChangeNotifier {
   }
 
   // PESANAN SAYA
-  myOrder() {
+  myCreation() {
     Map finalCreation = {};
     finalCreation.addAll(finalComponent);
+    if (!finalComponent.containsKey('Creator')) {
+      finalCreation.addAll({
+        'Creator' : nama.text.trim(),
+        'Name' : creationName.text.isNotEmpty? creationName.text.trim() : 'Kreazi-ku',
+      });
+    }
+    finalCreation.addAll({
+      'TtlLikes' : 0,
+      'liked': false,
+    });
+    return finalCreation;
+  }
+  myOrder() {
+    Map finalCreation = myCreation();
     finalCreation['Addition'] = {};
     for (var item in finalAddition.entries) {
       finalCreation['Addition'].addAll({item.key : item.value});
@@ -273,6 +291,10 @@ class BurgerProvider extends ChangeNotifier {
     for (var item in userInfo.entries) {
       finalCreation['Contact'].addAll({item.key : item.value});
     }
+    finalCreation.addAll({'Order' : {
+      'Code' : Random().nextInt(899999)+100000,   // random 6 digit
+      'Status' : 'Pesanan Baru'
+    }});
     return finalCreation;
   }
 
@@ -284,6 +306,7 @@ class BurgerProvider extends ChangeNotifier {
     resetAddition();
     resetTime();
     _saveUser = true;
+    creationName.text = '';
     notifyListeners();
   }
 }

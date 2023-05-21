@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StackBurger extends StatefulWidget {
-  const StackBurger({super.key, required this.source, required this.padding, required this.width});
+  const StackBurger({super.key, required this.source, required this.padding, this.width=150});
 
   final Map source; 
   final double padding;
@@ -14,7 +14,7 @@ class StackBurger extends StatefulWidget {
 class _StackBurgerState extends State<StackBurger> {
   @override
   Widget build(BuildContext context) {
-    double index = widget.source['TtlQty'];
+    double index = widget.source['TtlQty']-1;
     return Stack( 
       alignment: AlignmentDirectional.topCenter,
       children: [
