@@ -17,19 +17,17 @@ class _MyWishlistState extends State<MyWishlist> {
       appBar: AppBar(
         title: const Text('My Favorite Destinations'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      body:  provider.wishlist.isEmpty? const Center(child: Text('Your Wishlist is Empty', style: TextStyle(fontSize: 20, color: Color(0xFFBB00FF)),),) :
+        ListView(
           children: [
             for (var item in provider.wishlist)
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Image.asset('assets/$item', width: MediaQuery.of(context).size.width,),
-              )
+              ),
+            const Padding(padding: EdgeInsets.only(bottom: 8))
           ],
         ),
-      ),
     );
   }
 }

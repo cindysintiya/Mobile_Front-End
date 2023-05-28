@@ -14,67 +14,70 @@ class LatihanScreen extends StatefulWidget {
 class _LatihanScreenState extends State<LatihanScreen> {
   @override
   Widget build(BuildContext context) {
-    bottomSheets(BuildContext context) {
+    final provider = Provider.of<LatihanProvider>(context);
+    
+    bottomSheets(BuildContext context, int i) {
       return Builder(builder: (context) {
-        final provider = Provider.of<LatihanProvider>(context);
-        return SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              for (var i=1; i<=5; i++)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onDoubleTap: () {
-                      showBottomSheet(
-                        enableDrag: true,
-                        backgroundColor: const Color.fromARGB(255, 251, 243, 253),
-                        context: context, 
-                        builder: (context) {
-                          // final theme = Theme.of(context);
-                          return Wrap(
-                            children: [
-                              TextButton(
-                                onPressed: () {provider.wishlist='bg$i.jpg'; Navigator.pop(context);},
-                                child: Center(child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Text(provider.wishlist.contains('bg$i.jpg')? 'I hate it!' : 'I like it!', style: const TextStyle(fontSize: 17, color: Color(0xFFBB00FF)),),
-                                ))
-                              ),
-                              TextButton(
-                                onPressed: () {Navigator.pop(context);}, 
-                                child: const Padding(
-                                  padding: EdgeInsets.all(12),
-                                  child: Center(child: Text('Cancel', style: TextStyle(color: Colors.red),)),
-                                )
-                              ),
-                            ],
-                          );
-                        }
-                      );
-                    },
-                    child: Image.asset('assets/bg$i.jpg', width: MediaQuery.of(context).size.width*0.95,),
-                  ),
-                ),
-            ],
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+          child: InkWell(
+            onDoubleTap: () {
+              showBottomSheet(
+                enableDrag: true,
+                backgroundColor: const Color.fromARGB(255, 251, 243, 253),
+                elevation: 10,
+                context: context, 
+                builder: (context) {
+                  return Wrap(
+                    children: [
+                      TextButton(
+                        onPressed: () {provider.wishlist='bg$i.jpg'; Navigator.pop(context);},
+                        child: Center(child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(provider.wishlist.contains('bg$i.jpg')? 'I hate it!' : 'I like it!', style: const TextStyle(fontSize: 18, color: Color(0xFFBB00FF)),),
+                        ))
+                      ),
+                      TextButton(
+                        onPressed: () {Navigator.pop(context);}, 
+                        child: const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Center(child: Text('Cancel', style: TextStyle(color: Colors.red),)),
+                        )
+                      ),
+                    ],
+                  );
+                }
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 5, color: provider.wishlist.contains('bg$i.jpg')? const Color(0xFFEBB5FF) : const Color.fromARGB(255, 250, 233, 255))
+              ),
+              child: !provider.wishlist.contains('bg$i.jpg')? 
+                Image.asset('assets/bg$i.jpg', width: MediaQuery.of(context).size.width*0.95,) : 
+                Stack(
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: [
+                    Image.asset('assets/bg$i.jpg', width: MediaQuery.of(context).size.width*0.95,),
+                    const Icon(Icons.favorite_rounded, color: Colors.red, size: 35,)
+                  ]
+                )
+            ),
           ),
         );
       });
     }
 
-    final provider = Provider.of<LatihanProvider>(context);
-
     return DefaultTabController(
-      length: 4,  // jlh tab nntinya
+      length: 2,  // jlh tab nntinya
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Cindy Sintiya - 211110347'),
           bottom: const TabBar(   // mirip navbar, tp yg diatas
             // isScrollable: true,
             tabs: [
-              Tab(child: Text('Recommendations', textAlign: TextAlign.center,),),
-              Tab(child: Text('Destinations', textAlign: TextAlign.center,),),
+              Tab(text: 'Recommendations',),
+              Tab(text: 'Destinations',),
             ],
           ),
         ),
@@ -133,7 +136,12 @@ class _LatihanScreenState extends State<LatihanScreen> {
               onPressed: () {}, 
               child: const Text('No Recommendations', style: TextStyle(fontSize: 16, color: Color(0xFFBB00FF)),)
             ),
-            bottomSheets(context)
+            ListView(
+              children: [ 
+                for (var i=1; i<=5; i++) bottomSheets(context, i),
+                const Padding(padding: EdgeInsets.only(bottom: 8))
+              ],
+            )
           ],
         ),
       ),
