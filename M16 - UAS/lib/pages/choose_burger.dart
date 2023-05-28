@@ -117,7 +117,7 @@ class _ChooseBurgerState extends State<ChooseBurger> {
               }).toList(),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(5, 25, 5, 15),
               child: Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 crossAxisAlignment: WrapCrossAlignment.center,

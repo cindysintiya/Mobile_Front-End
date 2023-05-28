@@ -152,6 +152,16 @@ class BurgerProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  set reOrderAdditional(val) {
+    _finalAddition.addAll(val);
+    for (var type in _finalAddition.entries) {
+      _additional[type.key]['on'] = true;
+      for (var opt in _finalAddition[type.key].keys) {
+        _additional[type.key]['option'][opt] = true;
+      }
+    }
+    notifyListeners();
+  }
 
   // USER INFO
   final TextEditingController _nama = TextEditingController();

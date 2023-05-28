@@ -58,19 +58,77 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String searchVal = '';
+  TextEditingController searchCtrl = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     final provNav = Provider.of<NavigationProvider>(context);
     final provUser = Provider.of<UserProvider>(context);
     final provNotif = Provider.of<NotificationProvider>(context);
+    final provOrder = Provider.of<OrderProvider>(context);
     final List pages = [
       const Home(title: 'B_Kreazi'),
-      const Creation(title: 'Postingan'),
-      const OrderScreen(title: 'Pesanan'),
+      Creation(title: 'Creation', search: searchVal,),
+      const OrderScreen(title: 'Order'),
     ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(pages[provNav.currentIndex].title),
+        title: provNav.currentIndex == 1? 
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(width: 0.5, color: myCustomDarkerColor()),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: TextField(
+              controller: searchCtrl,
+              onChanged: (val) {
+                setState(() {
+                  searchVal = '';                  
+                });
+              },
+              onSubmitted: (val) {
+                setState(() {
+                  searchVal = val.trim().toLowerCase();
+                });
+              },
+              decoration: InputDecoration(
+                icon: const Icon(Icons.search_rounded),
+                suffixIcon: searchCtrl.text.isEmpty? null : 
+                  IconButton(icon: const Icon(Icons.clear_rounded), 
+                  splashRadius: 5,
+                    onPressed: () {
+                      setState(() {
+                        searchCtrl.text = '';
+                        searchVal = '';
+                      });
+                    },
+                  ),
+                border: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: 'Cari Kreazi ...',
+                hintStyle: const TextStyle(fontSize: 18),
+              ),
+              style: const TextStyle(fontSize: 17),
+            ),
+          )
+        :
+          Text(pages[provNav.currentIndex].title, style: const TextStyle(fontWeight: FontWeight.bold),),
+        actions: [
+          if (provNav.currentIndex != 1)
+            IconButton(
+              // splashRadius: 20,
+              tooltip: 'Cari Kreazi',
+              onPressed: () {
+                provNav.currentIndex = 1;
+              }, 
+              icon: const Icon(Icons.search_rounded)
+            ),
+          const SizedBox(width: 10,)
+        ],
       ),
       drawer: Drawer(
         semanticLabel: 'Menu',
@@ -79,26 +137,37 @@ class _MyHomePageState extends State<MyHomePage> {
             DrawerHeader(
               padding: const EdgeInsets.only(left: 20),
               decoration: BoxDecoration(color: myCustomColor()),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: provUser.userInfo.isNotEmpty? provUser.userInfo['Gender'] == 'Laki-Laki'? Colors.blue : Colors.pink : Colors.black54,
-                    // child: ClipOval(child: Image.asset('assets/pics.jpg', fit: BoxFit.cover,)),  // utk ganti foto
-                    child: Text(provUser.userInfo.isEmpty? '?' : provUser.userInfo['Nama'][0], style:  const TextStyle(fontSize: 30, color: Colors.white),),
-                  ),
+                  Image.asset('assets/B_Kreazi.png', width: 100,),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    padding: const EdgeInsets.only(bottom: 25),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(provUser.userInfo.isEmpty? 'username' : provUser.userInfo['Nama'], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-                        Text(provUser.userInfo.isEmpty? 'phone number' : provUser.userInfo['No HP'], style: const TextStyle(color: Colors.white),),
+                        CircleAvatar(
+                          radius: 30,
+                          // child: ClipOval(child: Image.asset('assets/pics.jpg', fit: BoxFit.cover,)),
+                          backgroundColor: provUser.userInfo.isNotEmpty? provUser.userInfo['Gender'] == 'Laki-Laki'? Colors.blue : Colors.pink : Colors.black54,
+                          child: Text(provUser.userInfo.isEmpty? '?' : provUser.userInfo['Nama'][0], style:  const TextStyle(fontSize: 30, color: Colors.white),),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(provUser.userInfo.isEmpty? 'username' : provUser.userInfo['Nama'], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
+                              Text(provUser.userInfo.isEmpty? 'phone number' : provUser.userInfo['No HP'], style: const TextStyle(color: Colors.white),),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
+                  ),
                 ],
               )
             ),
@@ -107,15 +176,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile(title: 'Profil Pengguna',)));
               },
               leading: const Icon(Icons.person_rounded),
-              title: const Text('Profil Akun'),
-              subtitle: const Text('Edit, Lihat detail informasi pribadi'),
+              title: const Text('Profil Pengguna', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Lihat, Edit detail informasi pribadi'),
             ),
             ListTile(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const AllMenu(title: 'Menu Official',)));
               },
               leading: const Icon(Icons.flatware_rounded),
-              title: const Text('Menu'),
+              title: const Text('Menu', style: TextStyle(fontSize: 16),),
               subtitle: const Text('Daftar menu original B_Kreazi'),
             ),
             ListTile(
@@ -142,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              title: const Text('Notifikasi'),
+              title: const Text('Notifikasi', style: TextStyle(fontSize: 16),),
               subtitle: const Text('Pengingat pesanan'),
             ),
             ListTile(
@@ -150,9 +219,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const MyKreazi()));
               },
               leading: const Icon(Icons.emoji_objects_outlined),
-              title: const Text('Kreazi-ku'),
+              title: const Text('Kreazi-ku', style: TextStyle(fontSize: 16),),
               subtitle: const Text('Kreazi saya, Kreazi Favorit'),
             ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.flash_on_rounded),
+              title: const Text('Pesan cepat', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Langsung ke halaman Custom Burger'),
+              trailing: Switch(
+                value: provOrder.quickOrder, 
+                onChanged: (val) => provOrder.quickOrder = val,
+                activeColor: myCustomColor(),
+                activeTrackColor: myCustomColor()[200],
+              ),
+              onTap: () {
+                provOrder.quickOrder = !provOrder.quickOrder;
+              },
+            )
           ],
         ),
       ),
@@ -170,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined), 
-            activeIcon: Icon(Icons.home_rounded),
+            activeIcon: Icon(Icons.house_rounded),
             label: 'Home', 
           ),
           BottomNavigationBarItem(
@@ -180,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long_rounded), 
-            activeIcon: Icon(Icons.receipt_long),
+            activeIcon: Icon(Icons.receipt_rounded),
             label: 'Order', 
           ),
         ],

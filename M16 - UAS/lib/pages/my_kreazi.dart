@@ -52,7 +52,7 @@ class _MyKreaziState extends State<MyKreazi> {
                 padding: const EdgeInsets.all(10),
                 child: CreationCard(product: provCreation.myCreation, provider: provCreation),
               ),
-            provCreation.allCreations.where((creation) => creation['liked']).isEmpty?
+            allKreazi.where((creation) => creation['liked']).isEmpty?
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

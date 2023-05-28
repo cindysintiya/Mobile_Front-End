@@ -31,6 +31,10 @@ class OrderProvider extends ChangeNotifier {
         'Waktu' : '11 Agustus 2023  20:20',
         'Pick Up' : '21:22'
       },
+      'Order': {
+        'Code' : 987654,
+        'Status' : 'Siap untuk di Pick-Up'
+      }
     },
     {
       'Burger' : {
@@ -50,10 +54,11 @@ class OrderProvider extends ChangeNotifier {
       'TtlLikes' : 2,
       'liked': false,
       'Addition' : {
-        'Minuman' : {'Coca-Cola': 8000},
-        'Kentang Goreng' : {'Kecil': 6000}
+        'Minuman' : {'Fanta': 8000, 'Sprite': 8000},
+        'Kentang Goreng' : {'Besar': 12000},
+        'Es Krim' : {'Vanila': 9000, 'Coklat': 9000, 'Stroberi': 9000}
       },
-      'FinalPrice': 49000,
+      'FinalPrice': 90000,
       'Contact': {
         'Nama': 'Cindy',
         'No HP': '082111110347',
@@ -62,12 +67,36 @@ class OrderProvider extends ChangeNotifier {
         'Waktu' : '25 Mei 2023  12:34',
         'Pick Up' : '13:57'
       },
+      'Order': {
+        'Code' : 123456,
+        'Status' : 'Sudah di Pick-Up'
+      }
     },
   ];
   List get myOrder => _myOrder;
 
   set addOrder(val) {
     _myOrder.insert(0, val);
+    notifyListeners();
+  }
+
+  bool _quickOrder = false;
+  bool get quickOrder => _quickOrder;
+  set quickOrder(val) {
+    _quickOrder = val;
+    notifyListeners();
+  }
+
+  set sudahPickup(val) {
+    _myOrder[val]['Order']['Status'] = 'Sudah di Pick-Up';
+    notifyListeners();
+  }
+
+  TextEditingController confirmCode = TextEditingController();
+  String _confirmStatus = '';
+  String get confirmStatus => _confirmStatus;
+  set confirmStatus(val) {
+    _confirmStatus = val;
     notifyListeners();
   }
 }

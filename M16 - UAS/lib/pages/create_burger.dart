@@ -39,7 +39,7 @@ class _CreateBurgerState extends State<CreateBurger> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('Peringatan!', style: TextStyle(fontWeight: FontWeight.bold),),
-                  content: const Text('Kamu akan kehilangan semua progres kustomisasi yang telah kamu lakukan. Yakin ingin kembali?'),
+                  content: const Text('Kamu akan kehilangan semua progres kustomisasi yang telah kamu lakukan. Yakin ingin kembali?', textAlign: TextAlign.justify,),
                   actions: [
                     TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Batal', style: TextStyle(color: Colors.grey),)),
                     TextButton(

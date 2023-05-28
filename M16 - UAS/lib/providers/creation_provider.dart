@@ -199,6 +199,10 @@ class CreationProvider extends ChangeNotifier {
     _allCreations.insert(0, val);
     notifyListeners();
   }
+  set delCreation(val) {
+    _allCreations.removeWhere((kreazi) => val['Name']==kreazi['Name']);
+    notifyListeners();
+  }
 
   set liked(name) {
     // all creation
@@ -226,10 +230,6 @@ class CreationProvider extends ChangeNotifier {
       kreazi['TtlLikes'] -= 1;
       kreazi['liked'] = false;
     }
-    notifyListeners();
-  }
-  set delCreation(val) {
-    _allCreations.removeWhere((kreazi) => val['Name']==kreazi['Name']);
     notifyListeners();
   }
 

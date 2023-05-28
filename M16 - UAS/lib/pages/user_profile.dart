@@ -25,9 +25,9 @@ class _UserProfileState extends State<UserProfile> {
           message: !provUser.edit? '' : 'Ganti Foto',
           child: InkWell(
             onTap: !provUser.edit? null : () {
-              showBottomSheet(
+              showModalBottomSheet(
                 enableDrag: true,
-                elevation: 50,
+                // elevation: 50,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
                 ),

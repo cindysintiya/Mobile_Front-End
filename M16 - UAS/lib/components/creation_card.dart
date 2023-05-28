@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:b_kreazi/providers/creation_provider.dart';
 import 'package:b_kreazi/providers/burger_provider.dart';
 import 'package:b_kreazi/providers/navigation_provider.dart';
+import 'package:b_kreazi/providers/order_provider.dart';
 import 'package:b_kreazi/components/stack_burger.dart';
 import 'package:b_kreazi/pages/create_burger.dart';
+import 'package:b_kreazi/pages/detail_burger.dart';
 
 class CreationCard extends StatefulWidget {
   const CreationCard({super.key, required this.product, required this.provider});
@@ -16,15 +18,15 @@ class CreationCard extends StatefulWidget {
 }
 
 class _CreationCardState extends State<CreationCard> {
-  Widget _buildCard(produk, provider, provBurger, provNav) => GridView.extent(
+  Widget _buildCard(produk, provider, provBurger, provNav, provOrder) => GridView.extent(
     maxCrossAxisExtent: 250,
     mainAxisSpacing: 7,
     crossAxisSpacing: 7,
     childAspectRatio: 2/2.8,
     shrinkWrap: true,
-    children: _buildGridTileList(produk, provider, provBurger, provNav)
+    children: _buildGridTileList(produk, provider, provBurger, provNav, provOrder)
   );
-  List<Widget> _buildGridTileList(List products, CreationProvider provider, BurgerProvider provBurger, NavigationProvider provNav) => List.generate(
+  List<Widget> _buildGridTileList(List products, CreationProvider provider, BurgerProvider provBurger, NavigationProvider provNav, OrderProvider provOrder) => List.generate(
     products.length, (i) => Card(
       elevation: 3,
       child: InkWell(
@@ -32,12 +34,14 @@ class _CreationCardState extends State<CreationCard> {
           provBurger.resetAll();
           provBurger.orderCreation = products[i];
           provNav.orderState = 'Addition';
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateBurger(back: false,)));
+          provOrder.quickOrder? 
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateBurger(back: false,))) : 
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailMenu(menu: products[i],)));
         },
         onLongPress: provider.myCreation.toString().contains(products[i].toString())? () {
-          showBottomSheet(
+          showModalBottomSheet(
             enableDrag: true,
-            elevation: 100,
+            // elevation: 100,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
             ),
@@ -48,53 +52,52 @@ class _CreationCardState extends State<CreationCard> {
             builder: (BuildContext bsContext) {
               return Wrap(
                 children: [
-                  provider.allCreations.toString().contains(products[i].toString())? 
+                  if (provider.allCreations.toString().contains(products[i].toString()))
                     TextButton(
                       onPressed: () {
-                        provider.delCreation = products[i];
-                        Navigator.pop(bsContext);
-                        ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(
-                          SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            duration: const Duration(seconds: 5),
-                            content: const Text('Kreazi berhasil disembunyikan dari Publik'),
-                            action: SnackBarAction(
-                              label: 'OK',
-                              textColor: Colors.white,
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                              },
-                            ),
-                          )
+                        showDialog(
+                          context: context, 
+                          builder: (BuildContext dialogContext) {
+                            return AlertDialog(
+                              title: const Text('Peringatan!', style: TextStyle(fontWeight: FontWeight.bold)),
+                              content: const Text('Dengan ini, Anda tidak dapat lagi mengembalikan Kreazi agar terlihat secara Publik dan jika ada orang lain yang memposting Kreazi yang sama (persis) dengan Kreazi ini, Anda juga tidak dapat melakukan komplain.', textAlign: TextAlign.justify,),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(dialogContext);
+                                  }, 
+                                  child: const Text('Batal', style: TextStyle(color: Colors.grey),)
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    provider.delCreation = products[i];
+                                    Navigator.pop(dialogContext);
+                                    Navigator.pop(bsContext);
+                                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(seconds: 5),
+                                        content: const Text('Kreazi berhasil dihapus untuk Publik'),
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          textColor: Colors.white,
+                                          onPressed: () {
+                                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                          },
+                                        ),
+                                      )
+                                    );
+                                  }, 
+                                  child: const Text('Ya, hapus saja')
+                                )
+                              ],
+                            );
+                          }
                         );
                       },
                       child: const Center(child: Padding(
                         padding: EdgeInsets.all(15),
-                        child: Text('Sembunyikan Postingan', style: TextStyle(fontSize: 17),),
-                      ))
-                    ) :
-                    TextButton(
-                      onPressed: () {
-                        provider.addCreations = products[i];
-                        Navigator.pop(bsContext);
-                        ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(
-                          SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            duration: const Duration(seconds: 5),
-                            content: const Text('Kreazi berhasil diposting ke Publik'),
-                            action: SnackBarAction(
-                              label: 'OK',
-                              textColor: Colors.white,
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                              },
-                            ),
-                          )
-                        );
-                      },
-                      child: const Center(child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text('Posting Ulang', style: TextStyle(fontSize: 17),),
+                        child: Text('Hapus untuk Publik', style: TextStyle(fontSize: 17),),
                       ))
                     ),
                   TextButton(
@@ -103,14 +106,14 @@ class _CreationCardState extends State<CreationCard> {
                         context: context, 
                         builder: (BuildContext dialogContext) {
                           return AlertDialog(
-                            title: const Text('Konfirmasi Penghapusan Postingan'),
-                            content: const Text('Apakah Anda yakin akan menghapus postingan ini secara permanen (termasuk Publik)?'),
+                            title: const Text('Konfirmasi Penghapusan Postingan', style: TextStyle(fontWeight: FontWeight.bold)),
+                            content: const Text('Apakah Anda yakin akan menghapus postingan ini secara permanen (termasuk Publik jika masih ada)?', textAlign: TextAlign.justify,),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(dialogContext);
                                 }, 
-                                child: const Text('Batal')
+                                child: const Text('Batal', style: TextStyle(color: Colors.grey),)
                               ),
                               TextButton(
                                 onPressed: () {
@@ -172,6 +175,9 @@ class _CreationCardState extends State<CreationCard> {
                         double padding = 15;
                         if (products[i]['TtlQty'] > 4) {
                           padding = (constraints.maxHeight-55)/products[i]['TtlQty'];
+                          if (padding > 15.5) {
+                            padding = 15.5;
+                          }
                         }
                         return StackBurger(source: products[i], padding: padding, width: (constraints.maxHeight/products[i]['TtlQty'])*6);
                       }
@@ -218,7 +224,8 @@ class _CreationCardState extends State<CreationCard> {
   Widget build(BuildContext context) {
     final provBurger = Provider.of<BurgerProvider>(context);
     final provNav = Provider.of<NavigationProvider>(context);
+    final provOrder = Provider.of<OrderProvider>(context);
 
-    return _buildCard(widget.product, widget.provider, provBurger, provNav);
+    return _buildCard(widget.product, widget.provider, provBurger, provNav, provOrder);
   }
 }

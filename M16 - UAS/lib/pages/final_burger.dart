@@ -59,26 +59,33 @@ class _FinalBurgerState extends State<FinalBurger> {
                     Visibility(
                       visible: additional.value['on'],
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        padding: const EdgeInsets.only(left: 25, right: 10),
+                        child: Wrap(
+                          alignment: WrapAlignment.spaceEvenly,
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: additional.value['option'].entries.map<Widget>((option) {
                               return additional.key=='Kentang Goreng'? 
-                                ChoiceChip(
-                                  label: Text(option.value? '${option.key} +${additional.value['price'][option.key]/1000}.000' : option.key),
-                                  selected: option.value,
-                                  selectedColor: myCustomColor()[700],
-                                  onSelected: (val) {
-                                    provBurger.option = ['Kentang Goreng', option.key, val];
-                                  },
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 5),
+                                  child: ChoiceChip(
+                                    label: Text(option.value? '${option.key} +${additional.value['price'][option.key]/1000}.000' : option.key),
+                                    selected: option.value,
+                                    selectedColor: myCustomColor()[700],
+                                    onSelected: (val) {
+                                      provBurger.option = ['Kentang Goreng', option.key, val];
+                                    },
+                                  ),
                                 ) :
-                                FilterChip(
-                                  label: Text(option.value? '${option.key} +${additional.value['price'][option.key]/1000}.000' : option.key), 
-                                  selected: option.value,
-                                  selectedColor: myCustomColor()[700],
-                                  onSelected: (val) {
-                                    provBurger.option = [additional.key, option.key, val];
-                                  },
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 5),
+                                  child: FilterChip(
+                                    label: Text(option.value? '${option.key} +${additional.value['price'][option.key]/1000}.000' : option.key), 
+                                    selected: option.value,
+                                    selectedColor: myCustomColor()[700],
+                                    onSelected: (val) {
+                                      provBurger.option = [additional.key, option.key, val];
+                                    },
+                                  ),
                                 );
                             }).toList(),
                         ),

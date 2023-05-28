@@ -289,7 +289,7 @@ class _UserInfoState extends State<UserInfo> {
                                 builder: (BuildContext context) {
                                   final provBurger = Provider.of<BurgerProvider>(context);
                                   return AlertDialog(
-                                    title: const Text('Masukkan nama Kreazi-mu'),
+                                    title: const Text('Masukkan nama Kreazi-mu', style: TextStyle(fontWeight: FontWeight.bold),),
                                     content: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
@@ -372,7 +372,7 @@ class _UserInfoState extends State<UserInfo> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: const Text('Konfirmasi Ulang', style: TextStyle(fontWeight: FontWeight.bold),),
-                                    content: Text('Hai, ${provBurger.nama.text.trim()}. Kamu yakin akan membuat pesanan senilai ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.myOrder()['FinalPrice'])},- dengan metode pembayaran ${provBurger.selPembayaran}?'),
+                                    content: Text('Hai, ${provBurger.nama.text.trim()}. Kamu yakin akan membuat pesanan senilai ${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(provBurger.myOrder()['FinalPrice'])},- dengan metode pembayaran ${provBurger.selPembayaran}?', textAlign: TextAlign.justify,),
                                     actions: [
                                       TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Batal', style: TextStyle(color: Colors.grey),)),
                                       TextButton(
