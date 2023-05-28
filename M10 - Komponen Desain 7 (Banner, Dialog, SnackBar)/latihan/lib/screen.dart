@@ -38,7 +38,26 @@ class _LatihanScreenState extends State<LatihanScreen> {
         TextButton(
           onPressed: () {
             Navigator.pop(dialogContext);   // yg di pop = alertboxnya, gk bole contextnya
-            ScaffoldMessenger.of(context)..hideCurrentMaterialBanner()..showMaterialBanner(showMyBanner(context, provider.chosen));
+            if (provider.chosen == 'None') {
+              ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 7),
+                  content: const Text('Tidak ada Ringtone yang dipilih'),
+                  action: SnackBarAction(
+                    label: 'Coba Lagi',
+                    textColor: Colors.white,
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                      showDialog(context: context, builder: (dialogContext) => showMyDialogBox(context, dialogContext));
+                    },
+                  ),
+                )
+              );
+            }
+            else {
+              ScaffoldMessenger.of(context)..hideCurrentMaterialBanner()..showMaterialBanner(showMyBanner(context, provider.chosen));
+            }
           }, 
           child: const Text('OK')
         ),
@@ -54,7 +73,7 @@ class _LatihanScreenState extends State<LatihanScreen> {
         TextButton(
           onPressed: () async {
             ScaffoldMessenger.of(context).showSnackBar(showMySnackbar(context, chosen));
-            await Future.delayed(const Duration(seconds: 5));
+            await Future.delayed(const Duration(seconds: 3));
             if (mounted) {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
             }
@@ -80,7 +99,7 @@ class _LatihanScreenState extends State<LatihanScreen> {
         label: 'OK',
         textColor: Colors.white,
         onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context)..hideCurrentSnackBar()..hideCurrentMaterialBanner();
         },
       ),
     );
@@ -96,7 +115,7 @@ class _LatihanScreenState extends State<LatihanScreen> {
       body: Center(
         child: TextButton.icon(
           onPressed: () {
-            // context = utk 
+            // context = utk scaffold
             // dialogContext = utk alertbox
             showDialog(context: context, builder: (dialogContext) => showMyDialogBox(context, dialogContext));
           }, 
