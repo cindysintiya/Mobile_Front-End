@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: 'B_Kreazi',
       theme: ThemeData(
         primarySwatch: myCustomColor(),
-        fontFamily: 'Gill Sans MT',
+        // fontFamily: 'Gill Sans MT',
       ),
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final List pages = [
       const Home(title: 'B_Kreazi'),
       Creation(title: 'Creation', search: searchVal,),
-      const OrderScreen(title: 'Order'),
+      const OrderScreen(title: 'Pesanan'),
     ];
 
     return Scaffold(

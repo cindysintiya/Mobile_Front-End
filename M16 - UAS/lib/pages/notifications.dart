@@ -34,7 +34,7 @@ class _NotificationsState extends State<Notifications> {
                     actions: [ 
                       TextButton(
                         onPressed: () => Navigator.pop(context), 
-                        child: const Text('Batal')
+                        child: const Text('Batal', style: TextStyle(color: Colors.grey),)
                       ),
                       TextButton(
                         onPressed: () {
@@ -175,7 +175,7 @@ class _NotificationsState extends State<Notifications> {
                                       actions: [ 
                                         TextButton(
                                           onPressed: () => Navigator.pop(context), 
-                                          child: const Text('Batal')
+                                          child: const Text('Batal', style: TextStyle(color: Colors.grey),)
                                         ),
                                         TextButton(
                                           onPressed: () {

@@ -300,7 +300,7 @@ class _UserInfoState extends State<UserInfo> {
                                           maxLength: 15,
                                           decoration: InputDecoration(
                                             hintText: 'Nama Kreazi-mu disini',
-                                            errorText: provBurger.creationName.text.trim().isEmpty? 'Wajib diisi' : provCreate.allCreations.any((creation) => creation['Name'].toLowerCase()==provBurger.creationName.text.trim().toLowerCase())? 'Nama Kreazi ini sudah terdaftar' : null
+                                            errorText: provBurger.creationName.text.trim().isEmpty? 'Wajib diisi' : provCreate.allCreations.any((creation) => creation['Name'].toLowerCase()==provBurger.creationName.text.trim().toLowerCase())? 'Nama Kreazi ini sudah terdaftar' : provBurger.creationName.text.trim().toLowerCase().contains('kreazi')? 'Tidak boleh memakai nama ini' : null
                                           ),
                                         ),
                                         const SizedBox(height: 10,),
@@ -317,7 +317,8 @@ class _UserInfoState extends State<UserInfo> {
                                             provNav.orderState = 'Choose';
                                             provCreate.addCreations = provBurger.myCreation();
                                             provCreate.addMyCreation = provBurger.myCreation();
-                                            provOrder.addOrder = provBurger.myOrder();  // add to order
+                                            final pesananSaya = provBurger.myOrder();
+                                            provOrder.addOrder = pesananSaya;  // add to order
                                             if (provBurger.saveUser) {
                                               provUser.saveUser = {
                                                 'Nama' : provBurger.nama.text.trim(),
@@ -338,12 +339,14 @@ class _UserInfoState extends State<UserInfo> {
                                             await Future.delayed(
                                               time.difference(now),
                                               () {
-                                                provNotif.autoSend = {
-                                                  'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss*',
-                                                  'date': DateFormat('dd-MM-yyyy HH:mm').format(time),
-                                                  'type': 'Order', 
-                                                  'read': false
-                                                }; 
+                                                if (pesananSaya['Order']['Status']!='Sudah di Pick-Up') { // status pesanan belum berubah
+                                                  provNotif.autoSend = {
+                                                    'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss* (Ini adalah pesan otomatis)',
+                                                    'date': DateFormat('dd-MM-yyyy HH:mm').format(time),
+                                                    'type': 'Order', 
+                                                    'read': false
+                                                  }; 
+                                                }
                                               }
                                             );
                                           }
@@ -379,7 +382,8 @@ class _UserInfoState extends State<UserInfo> {
                                         onPressed: () async {
                                           Navigator.popUntil(context, (route) => route.isFirst); // back/ exit ampe home
                                           provNav.orderState = 'Choose';
-                                          provOrder.addOrder = provBurger.myOrder();  // add to order
+                                          final pesananSaya = provBurger.myOrder();
+                                          provOrder.addOrder = pesananSaya;  // add to order
                                           if (provBurger.saveUser) { // jika mau disave data
                                             provUser.saveUser = {
                                               'Nama' : provBurger.nama.text.trim(),
@@ -400,12 +404,14 @@ class _UserInfoState extends State<UserInfo> {
                                           await Future.delayed(
                                             time.difference(now),
                                             () {
-                                              provNotif.autoSend = {
-                                                'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss*',
-                                                'date': DateFormat('dd-MM-yyyy HH:mm').format(time), 
-                                                'type': 'Order', 
-                                                'read': false
-                                              };
+                                              if (pesananSaya['Order']['Status'] != 'Sudah di Pick-Up') { // status pesanan belum berubah
+                                                provNotif.autoSend = {
+                                                  'title': 'Sudah waktunya Pick-Up', 'body': 'Kriinggg... Masih inget pesanan Burger yang kamu jadwalkan untuk diambil pukul ${DateFormat('HH').format(time)}:${DateFormat('mm').format(time)}? Kamu udah bisa datang ke store untuk cek apakah Burger-mu udah siap dan nikmatilah selagi fresh *chef kiss* (Ini adalah pesan otomatis)',
+                                                  'date': DateFormat('dd-MM-yyyy HH:mm').format(time), 
+                                                  'type': 'Order', 
+                                                  'read': false
+                                                };
+                                              }
                                             }
                                           );
                                         },

@@ -92,8 +92,9 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  TextEditingController confirmCode = TextEditingController();
-  String _confirmStatus = '';
+  // TextEditingController confirmCode = TextEditingController();
+  String confirmCode = '';
+  String _confirmStatus = 'Masukkan PIN konfirmasi';
   String get confirmStatus => _confirmStatus;
   set confirmStatus(val) {
     _confirmStatus = val;

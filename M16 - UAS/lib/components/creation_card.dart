@@ -38,6 +38,9 @@ class _CreationCardState extends State<CreationCard> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateBurger(back: false,))) : 
             Navigator.push(context, MaterialPageRoute(builder: (context) => DetailMenu(menu: products[i],)));
         },
+        // onDoubleTap: () {
+        //   provider.liked = products[i]['Name'];
+        // },
         onLongPress: provider.myCreation.toString().contains(products[i].toString())? () {
           showModalBottomSheet(
             enableDrag: true,
