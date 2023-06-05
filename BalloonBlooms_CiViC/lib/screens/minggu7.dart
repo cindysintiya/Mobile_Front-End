@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/providers/wishlist_provider.dart';
+import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/screens/minggu3.dart';
 import 'package:baloonblooms/screens/image.dart';
+import 'package:baloonblooms/screens/minggu13.dart';
 
 class DetailProduct extends StatefulWidget {
   const DetailProduct({super.key, required this.product});
@@ -114,6 +115,17 @@ class _DetailProductState extends State<DetailProduct> {
         tooltip: 'Komentar',
         backgroundColor: myCustomColor(),
         child: const Icon(Icons.comment_outlined),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        padding: const EdgeInsets.all(5),
+        height: 50,
+        elevation: 5,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CustomProduct(reference: widget.product)));
+          },
+          child: const Text('CUSTOM NOW', style: TextStyle(fontSize: 18),),
+        ),
       ),
     );
   }

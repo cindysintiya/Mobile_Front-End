@@ -178,7 +178,8 @@ class _AddFeedbackState extends State<AddFeedback> {
                           'komentar': prov.komentar.text,
                           'kepuasan': prov.puasTerpilih,
                           'tags': prov.chosenTag,
-                          'tgl': DateFormat('dd-MM-yyyy HH:mm').format(DateTime.now()).toString()
+                          'tgl': DateFormat('dd-MM-yyyy HH:mm').format(DateTime.now()).toString(),
+                          'spotlight': false
                         };
                         Navigator.pop(context);
                       }

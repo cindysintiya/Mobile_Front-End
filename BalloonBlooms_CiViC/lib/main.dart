@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:baloonblooms/screens/minggu1.dart';
 import 'package:baloonblooms/screens/minggu2.dart';
-import 'package:baloonblooms/screens/minggu4.dart';
-import 'package:baloonblooms/screens/feedback.dart';
+// import 'package:baloonblooms/screens/minggu4.dart';
+import 'package:baloonblooms/screens/minggu11.dart';
 import 'package:baloonblooms/screens/minggu5.dart';
-import 'package:baloonblooms/screens/minggu6.dart';
+// import 'package:baloonblooms/screens/minggu6.dart';
+import 'package:baloonblooms/components/minggu9.dart';
 import 'package:baloonblooms/components/custom_color.dart';  // import library custom warna
 
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ import 'package:baloonblooms/providers/wishlist_provider.dart';
 import 'package:baloonblooms/providers/comment_provider.dart';
 import 'package:baloonblooms/providers/notification_provider.dart';
 import 'package:baloonblooms/providers/feedback_provider.dart';
+import 'package:baloonblooms/providers/login_provider.dart';
+import 'package:baloonblooms/providers/custom_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +34,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CommentProvider()),
         ChangeNotifierProvider(create: (_) => NotifProvider()),
         ChangeNotifierProvider(create: (_) => FeedbackProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => CustomProvider()),
       ],
       child:  MaterialApp(
         title: 'BalloonBlooms - CiViC',
@@ -69,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final List pages = [
       const Home(title: 'Welcome to BalloonBlooms!'),
       Product(title: 'Product', search: provProduk.searchVal,),
-      const Wishlist(title: 'Wishlist',),
-      const Notifications(title: 'Notification'),
+      // const Wishlist(title: 'Wishlist',),
+      // const Notifications(title: 'Notification'),
       const Feedbacks(title: 'Feedbacks'),
     ];
     return Scaffold(
@@ -113,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+      drawer: const NavDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
         onTap: onTabTapped,
@@ -128,16 +134,16 @@ class _MyHomePageState extends State<MyHomePage> {
             activeIcon: Icon(Icons.grid_view_rounded),
             label: 'Product', 
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_rounded), 
-            activeIcon: Icon(Icons.favorite_rounded),
-            label: 'Wishlist', 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none), 
-            activeIcon: Icon(Icons.notifications_rounded),
-            label: 'Notification', 
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.favorite_border_rounded), 
+          //   activeIcon: Icon(Icons.favorite_rounded),
+          //   label: 'Wishlist', 
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.notifications_none), 
+          //   activeIcon: Icon(Icons.notifications_rounded),
+          //   label: 'Notification', 
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.article_outlined), 
             activeIcon: Icon(Icons.article_rounded),
@@ -147,13 +153,11 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedItemColor: myCustomColor(),
         unselectedItemColor: Colors.black,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: pages[_currentIndex]
-      ),
+      body: pages[_currentIndex],
       floatingActionButton: pages[_currentIndex].title == 'Feedbacks'? 
         FloatingActionButton(
           onPressed: () {
+            ScaffoldMessenger.of(context).clearSnackBars();
             Navigator.push(context, MaterialPageRoute(builder: (context) => const AddFeedback()));
           }, 
           tooltip: 'Give Feedback',

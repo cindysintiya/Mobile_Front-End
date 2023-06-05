@@ -20,27 +20,35 @@ class _WishlistState extends State<Wishlist> {
     final provProduk = context.watch<ProductProvider>();
     final provWishlist = context.watch<WishlistProvider>();
 
-    return provWishlist.wishlist.isEmpty? Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Wishlist mu masih kosong nih'),
-          const SizedBox(height: 8,),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Recommendation(title: 'Recommendation', product: provProduk.randomRecommend())));
-            }, 
-            child: const Text('Cek Rekomendasi')
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-    ) : 
-    ListView(
-      children: provWishlist.wishlist.map((item) {
-        // cari detail lengkap produk wishlist yg ada di provider dgn kunci product code
-        Map product = provProduk.products.firstWhere((produk) => produk.values.contains(item));
-        return WishlistCard(product: product, provWishlist: provWishlist,);
-      }).toList(),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: provWishlist.wishlist.isEmpty? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Wishlist mu masih kosong nih'),
+              const SizedBox(height: 8,),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Recommendation(title: 'Recommendation', product: provProduk.randomRecommend())));
+                }, 
+                child: const Text('Cek Rekomendasi')
+              ),
+            ],
+          ),
+        ) : 
+        ListView(
+          children: provWishlist.wishlist.map((item) {
+            // cari detail lengkap produk wishlist yg ada di provider dgn kunci product code
+            Map product = provProduk.products.firstWhere((produk) => produk.values.contains(item));
+            return WishlistCard(product: product, provWishlist: provWishlist,);
+          }).toList(),
+        ),
+      )
     );
   }
 }
