@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baloonblooms/components/minggu13.dart';
 
 class UpdateAvailable extends StatefulWidget {
   const UpdateAvailable({super.key});
@@ -27,7 +28,7 @@ class _UpdateAvailableState extends State<UpdateAvailable> {
   showMyDialog(BuildContext context) {
     return const AlertDialog(
       title: Text('Sedang diupdate. Mohon tunggu sebentar...', style: TextStyle(fontSize: 15),),
-      content: LinearProgressIndicator(),
+      content: UpdateLoad(),
     );
   }
 

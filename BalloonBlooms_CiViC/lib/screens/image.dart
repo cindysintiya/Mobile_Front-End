@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ImageScreen extends StatelessWidget {
-  const ImageScreen({super.key, required this.source});
+  const ImageScreen({super.key, required this.img, this.source='asset'});
+  final String img;
   final String source;
 
   @override
@@ -10,7 +13,11 @@ class ImageScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Full Image'),
       ),
-      body: Image.asset('assets/$source.jpg', width: MediaQuery.of(context).size.width,),
+      body: InteractiveViewer(
+        constrained: false,
+        maxScale: 3,
+        child: source=='asset'? Image.asset('assets/$img.jpg', width: MediaQuery.of(context).size.width,) : Image.file(File(img))
+      ),
     );
   }
 }

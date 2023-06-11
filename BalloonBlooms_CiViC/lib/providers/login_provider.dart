@@ -21,10 +21,10 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Map _userInfo = {
-    'username' : '-',
-    'fullname' : '-',
+    'username'  : '-',
+    'fullname'  : '-',
     'userphone' : '-',
-    'usermail' : '-'
+    'usermail'  : '-'
   };
   Map get userInfo => _userInfo;
 

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/login_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
@@ -28,9 +29,31 @@ class _NavDrawerState extends State<NavDrawer> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 30,
-                  child: ClipOval(child: Image.asset('assets/profpics.jpg', fit: BoxFit.cover,)),
+                // CircleAvatar(
+                //   radius: 30,
+                //   child: ClipOval(child: Image.asset('assets/profpics.jpg', fit: BoxFit.cover,)),
+                // ),
+                // CircleAvatar(
+                //   backgroundColor: Colors.black45,
+                //   radius: 30.5,
+                //   child: CircleAvatar(
+                //     radius: 30,
+                //     backgroundColor: myCustomColor(),
+                //     child: ClipOval(child: Padding(
+                //       padding: const EdgeInsets.all(5),
+                //       child: Image.asset('assets/flower.png', fit: BoxFit.cover,),
+                //     )),
+                //   ),
+                // ),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 0.5),
+                    color: myCustomColor()[500]
+                  ),
+                  width: 60,
+                  height: 60,
+                  child: CircleAvatar(child: Image.asset('assets/flower.png', fit: BoxFit.cover,))
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
@@ -49,6 +72,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
             onTap: () {
+              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Wishlist(title: 'Wishlist',)));
             },
             leading: const Icon(Icons.favorite_rounded),
@@ -56,6 +80,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
             onTap: () {
+              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Notifications(title: 'Notifikasi',)));
             },
             leading: const Icon(Icons.notifications_rounded),
@@ -63,6 +88,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(
             onTap: prov.userInfo['username']=='-'? () {
+              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginTabBar()));
             } : () {
               prov.logout();

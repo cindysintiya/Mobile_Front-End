@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/providers/notification_provider.dart';
+import 'package:baloonblooms/components/custom_color.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key, required this.title});

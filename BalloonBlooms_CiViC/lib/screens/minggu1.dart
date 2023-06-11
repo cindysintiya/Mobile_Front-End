@@ -1,10 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/product_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/components/minggu10.dart';
+import 'package:baloonblooms/components/minggu15.dart';
 import 'package:baloonblooms/screens/recommend.dart';
 import 'package:baloonblooms/screens/minggu7.dart';
 
@@ -29,31 +29,7 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const UpdateAvailable(),
-            CarouselSlider(
-              options: CarouselOptions(
-                height: MediaQuery.of(context).size.width*0.35,
-                enlargeCenterPage: false,
-                autoPlay: true,
-                aspectRatio: 4,
-                enableInfiniteScroll: true,
-                autoPlayAnimationDuration: const Duration(milliseconds: 300),
-                viewportFraction: 1.0,
-              ),
-              items: [
-                for (int i = 1; i < 5 ; i++)
-                // n Image of Slider
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: AssetImage('BalloonBlooms-$i.png'),
-                      fit: BoxFit.cover,
-                    )
-                  ),
-                ),
-              ],
-            ),
+            const CarouselHome(),
             const SizedBox(height: 8,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,6 +37,7 @@ class _HomeState extends State<Home> {
                 const Text('Ide Balon Populer', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                 TextButton(
                   onPressed: () {
+                    // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Recommendation(title: 'Recommendation', product: rekomendasi)));
                   }, 
                   child: const Text('Lihat Semua')
@@ -84,7 +61,10 @@ class _HomeState extends State<Home> {
                           borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                         child: InkWell(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProduct(product: produk))),
+                          onTap: () {
+                            // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProduct(product: produk)));
+                          },
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(6.5, 6.5, 6.5, 3),
                             child: Column(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:baloonblooms/components/custom_color.dart';  // import library custom warna
+import 'package:baloonblooms/components/minggu9.dart';
 import 'package:baloonblooms/screens/minggu1.dart';
 import 'package:baloonblooms/screens/minggu2.dart';
 // import 'package:baloonblooms/screens/minggu4.dart';
-import 'package:baloonblooms/screens/minggu11.dart';
 import 'package:baloonblooms/screens/minggu5.dart';
 // import 'package:baloonblooms/screens/minggu6.dart';
-import 'package:baloonblooms/components/minggu9.dart';
-import 'package:baloonblooms/components/custom_color.dart';  // import library custom warna
+import 'package:baloonblooms/screens/minggu11.dart';
 
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/product_provider.dart';
@@ -37,12 +37,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => CustomProvider()),
       ],
-      child:  MaterialApp(
+      child: MaterialApp(
         title: 'BalloonBlooms - CiViC',
         theme: ThemeData(
           primarySwatch: myCustomColor(),  // appbar, elevatedbutton
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const MyHomePage(title: '211110347 - 211110515'),
         debugShowCheckedModeBanner: false,
       )
     );
@@ -61,6 +61,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   void onTabTapped(val) {
+    // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     setState(() {
       _currentIndex = val;
     });

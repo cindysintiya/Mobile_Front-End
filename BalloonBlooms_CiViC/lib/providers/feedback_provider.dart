@@ -79,7 +79,7 @@ class FeedbackProvider extends ChangeNotifier {
   }
 
   final List<Map> _reviews = [
-    {'nama': 'Mikhaylia Florence', 'anonim': false, 'inisial': false, 'komentar': 'Ud pesan dari jam 10 pagi, sampe jam 2 siang pun masih belum ada respon mengenai pesanan saya. Pas chat di WA katanya suruh tunggu dulu, pesanan lagi membludak. Ada-ada saja.', 'kepuasan': 'Kurang Puas', 'tags': ['Respon'], 'tgl': '10-04-2023 13:31', 'spotlight': false},
+    {'nama': 'Mikhaylia Florence', 'anonim': false, 'inisial': false, 'komentar': 'Ud pesan dari jam 10 pagi, sampe jam 2 siang pun masih belum ada respon mengenai pesanan saya. Pas chat di WA katanya suruh tunggu dulu, karna pesanan lagi membludak. Ada-ada saja.', 'kepuasan': 'Kurang Puas', 'tags': ['Respon'], 'tgl': '10-04-2023 13:31', 'spotlight': false},
     {'nama': 'Angela Irena', 'anonim': false, 'inisial': false, 'komentar': 'Suka banget sama hasil sketsanya! Idenya bagus-bagus semua, I like it!', 'kepuasan': 'Sangat Puas', 'tags': ['Sketsa Potret', 'Kualitas'], 'tgl': '01-02-2023 08:52', 'spotlight': false},
     {'nama': 'Antonius', 'anonim': false, 'inisial': true, 'komentar': '', 'kepuasan': 'Cukup Puas', 'tags': ['Harga', 'Respon', 'Penataan'], 'tgl': '21-11-2022 13:31', 'spotlight': false},
     {'nama': 'Crystaline Olivia Ashley', 'anonim': false, 'inisial': false, 'komentar': 'Cantik', 'kepuasan': 'Puas', 'tags': [], 'tgl': '22-08-2022 13:31', 'spotlight': false},

@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/providers/feedback_provider.dart';
+import 'package:baloonblooms/components/custom_color.dart';
 
 class Feedbacks extends StatefulWidget {
   const Feedbacks({super.key, required this.title});

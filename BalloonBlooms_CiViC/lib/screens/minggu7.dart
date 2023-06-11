@@ -1,10 +1,13 @@
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/wishlist_provider.dart';
+import 'package:baloonblooms/providers/custom_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/screens/minggu3.dart';
 import 'package:baloonblooms/screens/image.dart';
-import 'package:baloonblooms/screens/minggu13.dart';
+import 'package:baloonblooms/screens/custom.dart';
 
 class DetailProduct extends StatefulWidget {
   const DetailProduct({super.key, required this.product});
@@ -19,6 +22,7 @@ class _DetailProductState extends State<DetailProduct> {
   @override
   Widget build(BuildContext context) {
     final provWishlist = context.watch<WishlistProvider>();
+    final provCustom = context.watch<CustomProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +54,7 @@ class _DetailProductState extends State<DetailProduct> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(source: widget.product['code'])));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(img: widget.product['code'])));
               },
               child: Image.asset(
                 'assets/${widget.product['code']}.jpg', 
@@ -118,11 +122,13 @@ class _DetailProductState extends State<DetailProduct> {
       ),
       bottomNavigationBar: BottomAppBar(
         padding: const EdgeInsets.all(5),
-        height: 50,
+        height: 45,
         elevation: 5,
         child: ElevatedButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => CustomProduct(reference: widget.product)));
+            provCustom.time = DateFormat('HH:mm').format(DateTime.now());
+            provCustom.dateTime = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now().add(const Duration(days: 5)));
           },
           child: const Text('CUSTOM NOW', style: TextStyle(fontSize: 18),),
         ),
