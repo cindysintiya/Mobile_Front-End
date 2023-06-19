@@ -257,17 +257,19 @@ class _CustomProductState extends State<CustomProduct> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 5, 30, 8),
             child: 
-            // provCustom.isImageLoaded? 
+            provCustom.isImageLoaded? 
             Tooltip(
               message: 'View Full Picture',
               child: GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(img: widget.reference['code'],))),
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(source: 'file', img: provCustom.img!.path,))),
-                child: Image.asset('assets/${widget.reference['code']}.jpg', height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
-                // Image.file(File(provCustom.img!.path), height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
+                onTap: () => 
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(img: widget.reference['code'],))),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(source: 'file', img: provCustom.img!.path,))),
+                child: 
+                // Image.asset('assets/${widget.reference['code']}.jpg', height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
+                Image.file(File(provCustom.img!.path), height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
               ),
             )
-            //  : null,
+             : null,
           ),
           const PortraitArtImgPicker(),
           tag('CONTACT INFORMATION'),

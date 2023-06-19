@@ -44,15 +44,22 @@ class _UpdateAvailableState extends State<UpdateAvailable> {
               barrierDismissible: false,
               builder: (context) => showMyDialog(context)
             );
-            await Future.delayed(const Duration(seconds: 5));
-            setState(() {
-              updateStatus = true;
-            });
-            if (mounted) {
+            await Future.delayed(const Duration(seconds: 5), () {
               Navigator.pop(context);   // hilangkan dialog box
               ScaffoldMessenger.of(context).showSnackBar(showMySnackBar(context));
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            }
+              setState(() {
+                updateStatus = true;
+              });
+            });
+            // setState(() {
+            //   updateStatus = true;
+            // });
+            // if (mounted) {
+            //   Navigator.pop(context);   // hilangkan dialog box
+            //   ScaffoldMessenger.of(context).showSnackBar(showMySnackBar(context));
+            //   ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            // }
           }, 
           child: const Text('Update Now')
         ),

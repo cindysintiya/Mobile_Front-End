@@ -80,20 +80,22 @@ class _PortraitArtImgPickerState extends State<PortraitArtImgPicker> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            // provCustom.pickedImage(false);
+                            provCustom.pickedImage(true);
+                            Navigator.pop(context);
+                          }, 
+                          tooltip: 'Gallery',
+                          iconSize: 45,
+                          icon: const Icon(Icons.image_rounded)
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            provCustom.pickedImage(false);
+                            Navigator.pop(context);
                           }, 
                           tooltip: 'Camera',
                           iconSize: 45,
                           icon: const Icon(Icons.camera_alt_rounded)
                         ),
-                        IconButton(
-                          onPressed: () {
-                            // provCustom.pickedImage(true);
-                          }, 
-                          tooltip: 'Galery',
-                          iconSize: 45,
-                          icon: const Icon(Icons.image_rounded)
-                        )
                       ],
                     ),
                   )
