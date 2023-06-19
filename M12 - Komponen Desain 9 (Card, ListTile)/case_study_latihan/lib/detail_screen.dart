@@ -31,6 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
         clipBehavior: Clip.antiAlias,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ListTile(
               leading: CircleAvatar(backgroundImage: NetworkImage(widget.data['img']),),
@@ -61,8 +62,9 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Wrap(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                alignment: WrapAlignment.spaceBetween,
                 children: [
                   Text.rich(
                     TextSpan(
@@ -111,7 +113,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 Expanded(
                   child: Container(
                     decoration: const BoxDecoration(
-                      border: Border(top: BorderSide(width: 0.25, color: Colors.black12))
+                      border: Border(top: BorderSide(width: 0.22, color: Colors.black12))
                     ),
                     child: TextButton.icon(
                       onPressed: () {}, 

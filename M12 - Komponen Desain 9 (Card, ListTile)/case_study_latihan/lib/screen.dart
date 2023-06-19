@@ -1,9 +1,9 @@
-import 'package:case_study_latihan/detail_screen.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:case_study_latihan/provider.dart';
+import 'package:case_study_latihan/detail_screen.dart';
 
 class Pertemuan12Screen extends StatefulWidget {
   const Pertemuan12Screen({super.key});
@@ -25,70 +25,136 @@ class _Pertemuan12ScreenState extends State<Pertemuan12Screen> {
     }
     else {
       // return ListView(
-      return GridView.extent(
-        maxCrossAxisExtent: 310,
-        padding: const EdgeInsets.all(4),
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
+      // return GridView.extent(
+      //   maxCrossAxisExtent: MediaQuery.of(context).size.width/2,
+      //   padding: const EdgeInsets.all(4),
+      //   mainAxisSpacing: 4,
+      //   crossAxisSpacing: 4,
+      //   children: List.generate(provider.data['data']!.length, (index) {
+      //     var item = provider.data['data']![index];
+      //     return InkWell(
+      //       onTap: () {
+      //         Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(data: item)));
+      //       },
+      //       child: Card(
+      //         clipBehavior: Clip.antiAlias,
+      //         child: Column(
+      //           children: [
+      //             ListTile(
+      //               leading: CircleAvatar(backgroundImage: NetworkImage(item['img']),),
+      //               title: Text(item['model'], overflow: TextOverflow.ellipsis),
+      //               subtitle: Text(item['developer'], overflow: TextOverflow.ellipsis),
+      //             ),
+      //             Padding(
+      //               padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      //               child: Text(
+      //                 // item['desc'].toString().length >= 100? '${item['desc'].toString().substring(0, 100)} ... read more' : item['desc'],
+      //                 // item['desc'].toString().length >= 90? '${item['desc'].toString().substring(0, 90)} ... read more' : item['desc'],
+      //                 // style: TextStyle(color: Colors.black.withOpacity(0.6)), 
+      //                 item['desc'],
+      //                 style: TextStyle(color: Colors.black.withOpacity(0.6)), overflow: TextOverflow.ellipsis, maxLines: 5,
+      //               ),
+      //             ),
+      //             Wrap(
+      //               alignment: WrapAlignment.spaceBetween,
+      //               children: [
+      //                 ButtonBar(
+      //                   alignment: MainAxisAlignment.start,
+      //                   children: [
+      //                     Text('${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(item['price'])},-'),
+      //                     Text('Rating ${item['rating'].toStringAsFixed(1)}')
+      //                   ],
+      //                 ),
+      //                 Row(
+      //                   mainAxisAlignment: MainAxisAlignment.end,
+      //                   children: [
+      //                     IconButton(
+      //                       onPressed: () {
+      //                         if (item['rating'] < 4.9) {
+      //                           provider.liked(item);
+      //                         }
+      //                       }, 
+      //                       splashRadius: 20,
+      //                       icon: const Icon(Icons.thumb_up_rounded)
+      //                     ),
+      //                     IconButton(
+      //                       onPressed: () {}, 
+      //                       splashRadius: 20,
+      //                       icon: const Icon(Icons.share_rounded)
+      //                     )
+      //                   ],
+      //                 )
+      //               ],
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   }),
+      // );
+      return Wrap(
         children: List.generate(provider.data['data']!.length, (index) {
           var item = provider.data['data']![index];
           return InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(data: item)));
             },
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(backgroundImage: NetworkImage(item['img']),),
-                    title: Text(item['model']),
-                    subtitle: Text(item['developer']),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                    child: Text(
-                      // item['desc'].toString().length >= 100? '${item['desc'].toString().substring(0, 100)} ... read more' : item['desc'],
-                      item['desc'].toString().length >= 90? '${item['desc'].toString().substring(0, 90)} ... read more' : item['desc'],
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)), 
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width/2,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(backgroundImage: NetworkImage(item['img']),),
+                      title: Text(item['model'], overflow: TextOverflow.ellipsis),
+                      subtitle: Text(item['developer'], overflow: TextOverflow.ellipsis,),
                     ),
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    children: [
-                      ButtonBar(
-                        alignment: MainAxisAlignment.start,
-                        children: [
-                          Text('${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(item['price'])},-'),
-                          Text('Rating ${item['rating'].toStringAsFixed(1)}')
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                      child: Text(
+                        // item['desc'].toString().length >= 100? '${item['desc'].toString().substring(0, 100)} ... read more' : item['desc'],
+                        item['desc'],
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)), overflow: TextOverflow.ellipsis, maxLines: 3,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (item['rating'] < 4.9) {
-                                provider.liked(item);
-                              }
-                            }, 
-                            splashRadius: 20,
-                            icon: const Icon(Icons.thumb_up_rounded)
-                          ),
-                          IconButton(
-                            onPressed: () {}, 
-                            splashRadius: 20,
-                            icon: const Icon(Icons.share_rounded)
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                ],
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      children: [
+                        ButtonBar(
+                          alignment: MainAxisAlignment.start,
+                          children: [
+                            Text('${NumberFormat.currency(locale: "id_ID", symbol: "Rp. ", decimalDigits: 0).format(item['price'])},-'),
+                            Text('Rating ${item['rating'].toStringAsFixed(1)}')
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                if (item['rating'] < 4.9) {
+                                  provider.liked(item);
+                                }
+                              }, 
+                              splashRadius: 20,
+                              icon: const Icon(Icons.thumb_up_rounded)
+                            ),
+                            IconButton(
+                              onPressed: () {}, 
+                              splashRadius: 20,
+                              icon: const Icon(Icons.share_rounded)
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          );
-        }),
+          );}
+        )
       );
     }
   }
