@@ -122,9 +122,9 @@ class _FeedbacksState extends State<Feedbacks> {
                   }
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Divider(),
+              const Divider(
+                indent: 12,
+                endIndent: 12,
               )
             ],
           );

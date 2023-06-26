@@ -32,7 +32,7 @@ class _CarouselHomeState extends State<CarouselHome> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             image: DecorationImage(
-              image: AssetImage('BalloonBlooms-$i.png'),
+              image: AssetImage('assets/BalloonBlooms$i.png'),
               fit: BoxFit.cover,
             )
           ),
