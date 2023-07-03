@@ -1,6 +1,8 @@
+import 'package:baloonblooms/components/minggu15.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/login_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
@@ -72,7 +74,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
             onTap: () {
-              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Wishlist(title: 'Wishlist',)));
             },
             leading: const Icon(Icons.favorite_rounded),
@@ -80,21 +82,29 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
             onTap: () {
-              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Notifications(title: 'Notifikasi',)));
             },
             leading: const Icon(Icons.notifications_rounded),
             title: const Text('Notification'),
           ),
+          ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
+            onTap: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const WebViewIG()));
+            },
+            leading: const Icon(FontAwesomeIcons.instagram),
+            title: const Text('Social Media'),
+          ),
           ListTile(
             onTap: prov.userInfo['username']=='-'? () {
-              // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginTabBar()));
             } : () {
               prov.logout();
             },
             leading: Icon(prov.userInfo['username']=='-'? Icons.login_rounded : Icons.logout_rounded),
-            title: Text(prov.userInfo['username']=='-'? 'Sign In' : 'Sign Out'),
+            title: Text(prov.userInfo['username']=='-'? 'Sign Up' : 'Log Out'),
           ),
         ],
       ),
@@ -166,7 +176,7 @@ class _LoginTabBarState extends State<LoginTabBar> {
       length: 2, 
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Sign In'),
+          title: const Text('Sign Up'),
           actions: [
             IconButton(
               onPressed: () {
@@ -229,7 +239,7 @@ class _LoginTabBarState extends State<LoginTabBar> {
                       Navigator.pop(context);
                     }
                   }, 
-                  child: const Text('Sign In')
+                  child: const Text('Sign Up')
                 )
               ),
               tabBody(
@@ -262,7 +272,7 @@ class _LoginTabBarState extends State<LoginTabBar> {
                       Navigator.pop(context);
                     }
                   }, 
-                  child: const Text('Sign In')
+                  child: const Text('Sign Up')
                 )
               ),
             ],

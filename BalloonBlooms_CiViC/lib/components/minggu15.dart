@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/custom_provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CarouselHome extends StatefulWidget {
   const CarouselHome({super.key});
@@ -107,6 +108,30 @@ class _PortraitArtImgPickerState extends State<PortraitArtImgPicker> {
         label: const Text('Choose Image'),
         icon: const Icon(Icons.upload_rounded),
       )
+    );
+  }
+}
+
+class WebViewIG extends StatefulWidget {
+  const WebViewIG({super.key});
+
+  @override
+  State<WebViewIG> createState() => _WebViewIGState();
+}
+
+class _WebViewIGState extends State<WebViewIG> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('IG @balloonblooms_medan'),
+      ),
+      body: const SafeArea(
+        child: WebView(
+          initialUrl: 'https://instagram.com/balloonblooms_medan',
+          javascriptMode: JavascriptMode.unrestricted,
+        )
+      ),
     );
   }
 }
