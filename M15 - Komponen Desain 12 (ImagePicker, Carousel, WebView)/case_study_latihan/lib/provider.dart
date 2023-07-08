@@ -29,7 +29,38 @@ class Pertemuan15Provider extends ChangeNotifier {
     }
     catch (e) {
       isImageLoaded = false;
-      print(e.toString());
+      // print(e.toString());
+    }
+  }
+
+  bool _isVideoLoaded = false;
+  bool get isVideoLoaded => _isVideoLoaded;
+  set isVideoLoaded(val) {
+    _isVideoLoaded = val;
+    notifyListeners();
+  }
+
+  // video picker
+  final ImagePicker _videoPicker = ImagePicker();
+
+  XFile? _vid;
+  XFile? get vid => _vid;
+  set vid(val) {
+    _vid = val;
+    notifyListeners();
+  }
+  
+  pickedVideo(bool isGallery) async {
+    try {
+      var res = await _videoPicker.pickVideo(source: isGallery? ImageSource.gallery: ImageSource.camera);
+      if (res != null) {
+        vid = res;
+        isVideoLoaded = true;
+      }
+    }
+    catch (e) {
+      isVideoLoaded = false;
+      // print(e.toString());
     }
   }
 }

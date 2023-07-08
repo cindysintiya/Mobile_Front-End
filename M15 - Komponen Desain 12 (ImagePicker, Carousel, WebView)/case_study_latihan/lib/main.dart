@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       home: const Pertemuan15Screen(),
+      // home: const VideoPlayerApp(),
       debugShowCheckedModeBanner: false,
     );
   }

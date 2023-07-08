@@ -22,7 +22,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewWidget(url: 'https://mikroskil.ac.id/pengumuman/345$i')));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewWidget(url: 'https://mikroskil.ac.id/berita?page=$i')));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

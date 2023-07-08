@@ -1,12 +1,14 @@
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:case_study_latihan/provider.dart';
 import 'package:case_study_latihan/components/button_image_picker.dart';
 import 'package:case_study_latihan/components/carousel_slider.dart';
 import 'package:case_study_latihan/components/carousel_image_picker.dart';
+import 'package:case_study_latihan/components/button_video_picker.dart';
+import 'package:case_study_latihan/components/video_player_area.dart';
 
 class Pertemuan15Screen extends StatefulWidget {
   const Pertemuan15Screen({super.key});
@@ -30,12 +32,8 @@ class _Pertemuan15ScreenState extends State<Pertemuan15Screen> {
         children: [
           // Carousel
           const CarouselSliderWidget(),
+          const SizedBox(height: 20,),
 
-          // Carousel from image picker
-          if (listImg != null) CarouselImagePicker(listImg: listImg),
-
-          // image picker ; menampilkan gambar terpilih jika ada
-          prov.isImageLoaded? Image.file(File(prov.img!.path)) : Container(),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -49,14 +47,17 @@ class _Pertemuan15ScreenState extends State<Pertemuan15Screen> {
                   onPressed: () async {
                     var pilihGbr = ImagePicker();
                     var hasil = await pilihGbr.pickMultiImage();
-                    if (hasil == null) {
-                      print('Tidak ada Foto');
-                    }
-                    else {
-                      setState(() {
-                        listImg = hasil;
-                      });
-                    }
+                    // if (hasil.contains(null)) {
+                    //   print('Tidak ada Foto');
+                    // }
+                    // else {
+                    //   setState(() {
+                    //     listImg = hasil;
+                    //   });
+                    // }
+                    setState(() {
+                      listImg = hasil;
+                    });
                   }, 
                   child: const Text('Multi Image')
                 ),
@@ -68,24 +69,69 @@ class _Pertemuan15ScreenState extends State<Pertemuan15Screen> {
             ),
           ),
 
+          // Carousel from image picker
+          if (listImg != null && listImg!.isNotEmpty) Column(
+            children: [
+              const Text('Carousel Image Picker'),
+              CarouselImagePicker(listImg: listImg),
+            ],
+          ),
+          const SizedBox(height: 20,),
+
+          // image picker ; menampilkan gambar terpilih jika ada
+          prov.isImageLoaded? Column(
+            children: [
+              const Text('Image Picker'),
+              Image.file(File(prov.img!.path)),
+            ],
+          ) : Container(),
+          const SizedBox(height: 20,),
+
           // show multi image
-          listImg != null?
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: SizedBox(
-                height: 300,
-                width: MediaQuery.of(context).size.width,
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 4,
-                  children: listImg!.map((img) => 
-                    Image.file(File(img.path))
-                  ).toList(),
+          listImg != null && listImg!.isNotEmpty?
+            Column(
+              children: [
+                const Text('Multi Image Picker'),
+                SizedBox(
+                  height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 4,
+                    children: listImg!.map((img) => 
+                      Image.file(File(img.path))
+                    ).toList(),
+                  ),
                 ),
-              ),
+              ],
             )
-          : Container()
+          : Container(),
+          
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                ButtonVideoPicker(
+                  title: 'Open Galery', 
+                  isGallery: true
+                ),
+                ButtonVideoPicker(
+                  title: 'Camera', 
+                  isGallery: false
+                ),
+              ],
+            ),
+          ),
+
+          // show video
+          prov.isVideoLoaded? Column(
+            children: const [
+              Text('Video Player'),
+              VideoPlayerArea(),
+            ],
+          ) : Container(),
         ],
       ),
     );

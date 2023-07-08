@@ -1,0 +1,6 @@
+Set permission for video player :
+- Buka file : /android/app/src/main/AndroidManifest.xml
+- Tambahkan setelah </application> : <uses-permission android:name="android.permission.INTERNET"/>
+
+Requirement for multidex :
+Open terminal >> flutter build apk --multidex --debug >> F5 or flutter run --multidex

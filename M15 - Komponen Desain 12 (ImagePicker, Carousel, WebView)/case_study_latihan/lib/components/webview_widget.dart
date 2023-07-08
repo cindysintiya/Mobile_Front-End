@@ -27,7 +27,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         title: const Text('Berita'),
       ),
       body: SafeArea(
-        child: WebView(initialUrl: widget.url,)
+        child: WebView(initialUrl: widget.url, javascriptMode: JavascriptMode.unrestricted,)
       ),
     );
   }
