@@ -14,7 +14,7 @@ class _UpdateAvailableState extends State<UpdateAvailable> {
       behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 5),
       backgroundColor: const Color.fromARGB(255, 152, 90, 105),
-      content: updateStatus? const Text('Aplikasi berhasil di update') : const Text('Sedang diupdate'),
+      content: const Text('Aplikasi berhasil di update'),
       action: SnackBarAction(
         label: 'OK',
         textColor: Colors.white,

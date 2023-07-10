@@ -14,18 +14,19 @@ class _ProductCardState extends State<ProductCard> {
   Widget _buildCard(produk, provWishlist) => GridView.extent(
     maxCrossAxisExtent: 260,
     padding: const EdgeInsets.all(4),
-    mainAxisSpacing: 10,
-    crossAxisSpacing: 10,
+    mainAxisSpacing: 4,
+    crossAxisSpacing: 4,
     childAspectRatio: 2/2.8,
     children: _buildGridTileList(produk, provWishlist)
   );
-  List<Container> _buildGridTileList(List products, WishlistProvider provWishlist) => List.generate(
-    products.length, (i) => Container(
-      decoration: BoxDecoration(
-        // color: Colors.white,
-        border: Border.all(width: 0.5),
-        borderRadius: const BorderRadius.all(Radius.circular(5))
-      ),
+  List<Card> _buildGridTileList(List products, WishlistProvider provWishlist) => List.generate(
+    // products.length, (i) => Container(
+    //   decoration: BoxDecoration(
+    //     border: Border.all(width: 0.5),
+    //     borderRadius: const BorderRadius.all(Radius.circular(5))
+    //   ),
+    products.length, (i) => Card(
+      elevation: 3,
       child: InkWell(
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProduct(product: products[i]))),
         child: Padding(

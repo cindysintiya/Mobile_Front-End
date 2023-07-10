@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
                 const Text('Ide Balon Populer', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                 TextButton(
                   onPressed: () {
-                    // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Recommendation(title: 'Recommendation', product: rekomendasi)));
                   }, 
                   child: const Text('Lihat Semua')
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                            ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
                             Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProduct(product: produk)));
                           },
                           child: Padding(

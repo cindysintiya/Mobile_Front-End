@@ -30,7 +30,8 @@ class _SnackBudgetState extends State<SnackBudget> {
                   message: 'Rp. ${provCustom.budget[acc.key]~/1000}.000,-',
                   child: Slider(
                     min: 10000, max: 250000,
-                    value: provCustom.budget[acc.key], onChanged: (val) => provCustom.changeBudget(acc.key, (val~/1000)*1000)
+                    value: provCustom.budget[acc.key].toDouble(), 
+                    onChanged: (val) => provCustom.changeBudget(acc.key, (val~/1000)*1000)
                   ),
                 ),
                 // Text('Rp. ${provCustom.budget[acc.key]~/1000}.000,-'),

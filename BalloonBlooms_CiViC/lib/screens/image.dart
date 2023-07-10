@@ -16,7 +16,7 @@ class ImageScreen extends StatelessWidget {
       body: InteractiveViewer(
         constrained: false,
         maxScale: 3,
-        child: source=='asset'? Image.asset('assets/$img.jpg', width: MediaQuery.of(context).size.width,) : Image.file(File(img))
+        child: source=='asset'? Image.asset('assets/$img.jpg', width: MediaQuery.of(context).size.width,) : Image.file(File(img), width: MediaQuery.of(context).size.width,)
       ),
     );
   }

@@ -1,9 +1,8 @@
-import 'package:intl/intl.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/wishlist_provider.dart';
 import 'package:baloonblooms/providers/custom_provider.dart';
+import 'package:baloonblooms/providers/login_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
 import 'package:baloonblooms/screens/minggu3.dart';
 import 'package:baloonblooms/screens/image.dart';
@@ -23,6 +22,7 @@ class _DetailProductState extends State<DetailProduct> {
   Widget build(BuildContext context) {
     final provWishlist = context.watch<WishlistProvider>();
     final provCustom = context.watch<CustomProvider>();
+    final provLogin = context.watch<LoginProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -127,8 +127,8 @@ class _DetailProductState extends State<DetailProduct> {
         child: ElevatedButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => CustomProduct(reference: widget.product)));
-            provCustom.time = DateFormat('HH:mm').format(DateTime.now());
-            provCustom.dateTime = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now().add(const Duration(days: 5)));
+            provCustom.resetAll();
+            provLogin.resetField();
           },
           child: const Text('CUSTOM NOW', style: TextStyle(fontSize: 18),),
         ),

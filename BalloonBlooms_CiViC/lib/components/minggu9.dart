@@ -1,8 +1,6 @@
-import 'package:baloonblooms/components/minggu15.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/login_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
@@ -87,14 +85,6 @@ class _NavDrawerState extends State<NavDrawer> {
             },
             leading: const Icon(Icons.notifications_rounded),
             title: const Text('Notification'),
-          ),
-          ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
-            onTap: () {
-              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const WebViewIG()));
-            },
-            leading: const Icon(FontAwesomeIcons.instagram),
-            title: const Text('Social Media'),
           ),
           ListTile(
             onTap: prov.userInfo['username']=='-'? () {

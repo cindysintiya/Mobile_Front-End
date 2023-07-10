@@ -37,7 +37,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
               var res = await showDatePicker(
                 context: context, 
                 initialDate: provCustom.date, 
-                firstDate: DateTime.now(), 
+                firstDate: DateTime.now().add(const Duration(days: 5)), 
                 lastDate: DateTime.now().add(const Duration(days: 30))
               );
               if (res != null) {
@@ -63,10 +63,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
               );
               if (res != null) {
                 final now = provCustom.date;
-                final newTime = DateTime(now.year, now.month, now.day, res.hour, res.minute);
-                provCustom.time = DateFormat('HH:mm').format(newTime);
-                provCustom.time2 = TimeOfDay(hour: res.hour, minute: res.minute);
-                provCustom.dateTime = DateFormat('dd/MM/yyyy HH:mm').format(newTime);
+                if (res.hour >= 7 && res.hour <= 21) { // jam buka dari 7 pagi sd 10 malam
+                  final newTime = DateTime(now.year, now.month, now.day, res.hour, res.minute);
+                  provCustom.time = DateFormat('HH:mm').format(newTime);
+                  provCustom.time2 = TimeOfDay(hour: res.hour, minute: res.minute);
+                  provCustom.dateTime = DateFormat('dd/MM/yyyy HH:mm').format(newTime);
+                }
               }
             }, 
             splashRadius: 18,

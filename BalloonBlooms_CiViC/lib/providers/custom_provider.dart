@@ -1,13 +1,13 @@
-import 'package:image_picker/image_picker.dart';
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CustomProvider extends ChangeNotifier {
   final List ballType = ['Choose Type', 'Original', 'Heart-Shaped', 'Star-Shaped'];
   final List ribType = ['Choose Type', 'Satin Ribbon', 'Grossgrain Ribbon'];
   final List colors = ['Choose Color', 'Red', 'Rose-Gold', 'Gold'];
-  final Map _accessories = {'Doll-Bear': false, 'Flower': false, 'Snacks': false, 'Money': false};
-  final Map _budget = {'Doll-Bear': 50000, 'Flower': 50000, 'Snacks': 50000, 'Money': 50000};
+  Map _accessories = {'Doll-Bear': false, 'Flower': false, 'Snacks': false, 'Money': false};
+  Map _budget = {'Doll-Bear': 50000, 'Flower': 50000, 'Snacks': 50000, 'Money': 50000};
   final List cellophanes = ['Choose Color', 'Red', 'Pink', 'Purple', 'Blue', 'Nude', 'Green-Mint', 'Brown'];
   final List payMeth = ['Choose Payment', 'COD', 'M-Banking', 'E-Wallet', 'VA Transfer'];
 
@@ -111,5 +111,32 @@ class CustomProvider extends ChangeNotifier {
     catch (e) {
       isImageLoaded = false;
     }
+  }
+
+  resetAll() {
+    // balloon
+    balloon = 'Choose Type';
+    bColor = 'Choose Color';
+    // ribbon
+    ribbon = 'Choose Type';
+    rColor = 'Choose Color';
+    // cellophane
+    cellophane = 'Choose Color';
+    // accessories
+    _accessories = {'Doll-Bear': false, 'Flower': false, 'Snacks': false, 'Money': false};
+    // budget
+    _budget = {'Doll-Bear': 50000, 'Flower': 50000, 'Snacks': 50000, 'Money': 50000};
+    // note
+    accNotes.text = '';
+    cardNotes.text = '';
+    // portrait art
+    isImageLoaded = false;
+    img = null;
+    // contact address
+    address.text = '';
+    // received date time
+    time = DateFormat('HH:mm').format(DateTime.now());
+    dateTime = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now().add(const Duration(days: 5)));
+    notifyListeners();
   }
 }

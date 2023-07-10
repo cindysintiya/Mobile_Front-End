@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
         title: 'BalloonBlooms - CiViC',
         theme: ThemeData(
           primarySwatch: myCustomColor(),  // appbar, elevatedbutton
+          sliderTheme: const SliderThemeData(showValueIndicator: ShowValueIndicator.always),  // biar slider slalu tampilkan labelnya
+          // useMaterial3: true
         ),
         home: const MyHomePage(title: '211110347 - 211110515'),
         debugShowCheckedModeBanner: false,
@@ -61,7 +63,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   void onTabTapped(val) {
-    // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     setState(() {
       _currentIndex = val;
     });
@@ -82,41 +84,86 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: pages[_currentIndex].title != 'Product'? Text(pages[_currentIndex].title) : 
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(width: 0.5),
-            borderRadius: const BorderRadius.all(Radius.circular(10))
-          ),
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          margin: const EdgeInsets.all(20),
-          child: TextField(
-            controller: searchCtrl,
-            onChanged: (val) {
-              provProduk.searchVal = val;
-              provProduk.changeProduct = '';
-            },
-            onSubmitted: (val) {
-              provProduk.searchVal = val.trim();
-              provProduk.changeProduct = val.trim();
-            },
-            decoration: InputDecoration(
-              icon: const Icon(Icons.search_rounded),
-              suffixIcon: provProduk.searchVal.isEmpty? null : 
-                IconButton(icon: const Icon(Icons.clear_rounded), 
-                  onPressed: () {
-                    searchCtrl.text = '';
-                    provProduk.searchVal = '';
-                    provProduk.changeProduct = '';
-                  },
-                ),
-              border: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              hintText: 'Search Product ...',
-              hintStyle: const TextStyle(fontSize: 18)
-            ),
-            style: const TextStyle(fontSize: 17),
-          ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     border: Border.all(width: 0.5),
+        //     borderRadius: const BorderRadius.all(Radius.circular(10))
+        //   ),
+        //   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        //   margin: const EdgeInsets.all(20),
+        //   child: TextField(
+        //     controller: searchCtrl,
+        //     onChanged: (val) {
+        //       provProduk.searchVal = val;
+        //       provProduk.changeProduct = '';
+        //     },
+        //     onSubmitted: (val) {
+        //       provProduk.searchVal = val.trim();
+        //       provProduk.changeProduct = val.trim();
+        //     },
+        //     decoration: InputDecoration(
+        //       icon: const Icon(Icons.search_rounded),
+        //       suffixIcon: provProduk.searchVal.isEmpty? null : 
+        //         IconButton(icon: const Icon(Icons.clear_rounded), 
+        //           onPressed: () {
+        //             searchCtrl.text = '';
+        //             provProduk.searchVal = '';
+        //             provProduk.changeProduct = '';
+        //           },
+        //         ),
+        //       border: InputBorder.none,
+        //       disabledBorder: InputBorder.none,
+        //       hintText: 'Search Product ...',
+        //       hintStyle: const TextStyle(fontSize: 18)
+        //     ),
+        //     style: const TextStyle(fontSize: 17),
+        //   ),
+        // ),
+        SizedBox (
+          height: 55.0,
+          child: Row(
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+                  child: TextField(
+                    controller: searchCtrl,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide.none
+                      ),
+                      hintText: 'Search...',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      contentPadding: const EdgeInsets.all(10),
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: provProduk.searchVal.isEmpty? null : IconButton(
+                        icon: const Icon(Icons.clear_rounded), 
+                        splashRadius: 10,
+                        onPressed: () {
+                          searchCtrl.text = '';
+                          provProduk.searchVal = '';
+                          provProduk.changeProduct = '';
+                        },
+                      ),
+                    ),
+                    textAlign: TextAlign.left,
+                    onChanged: (val) {
+                      provProduk.searchVal = val;
+                      provProduk.changeProduct = '';
+                    },
+                    onSubmitted: (val) {
+                      provProduk.searchVal = val.trim();
+                      provProduk.changeProduct = val.trim();
+                    },
+                  ),
+                )
+              ),
+            ],
+          )
         ),
       ),
       drawer: const NavDrawer(),
