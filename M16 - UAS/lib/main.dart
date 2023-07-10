@@ -19,6 +19,7 @@ import 'package:b_kreazi/pages/all_menu.dart';
 import 'package:b_kreazi/pages/notifications.dart';
 import 'package:b_kreazi/pages/my_kreazi.dart';
 import 'package:b_kreazi/pages/login_page.dart';
+import 'package:b_kreazi/pages/about_us.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -246,6 +247,14 @@ class _MyHomePageState extends State<MyHomePage> {
               subtitle: const Text('Kreazi saya, Kreazi Favorit'),
             ),
             const Divider(),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutUs()));
+              },
+              leading: const Icon(Icons.person_pin),
+              title: const Text('About Us', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Tentang kami'),
+            ),
             provLogin.isLoggedIn? 
             ListTile(
               onTap: () {
