@@ -234,7 +234,7 @@ class CreationProvider extends ChangeNotifier {
   }
 
   topCreation() {
-    double highest = 0;
+    int highest = 0;
     Map top = {};
     for (var creation in _allCreations) {
       if (creation['TtlLikes'] > highest) {

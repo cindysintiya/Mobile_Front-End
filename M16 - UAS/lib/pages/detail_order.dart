@@ -262,6 +262,34 @@ class _OrderDetailState extends State<OrderDetail> {
                             const Divider(),
                           ],
                         ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Center(child: Text('Catatan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Level Pedas', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                              Text(widget.order['Spicy'], style: const TextStyle(fontSize: 17),)
+                            ]
+                          ),
+                          const SizedBox(height: 5,),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Note : ',
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              children: [
+                                TextSpan(
+                                  text: widget.order['Note'], 
+                                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
+                                )
+                              ]
+                            ), 
+                          ),
+                          const Divider(),
+                        ],
+                      ),
                       if (widget.order.containsKey('Discount'))
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -481,6 +509,8 @@ class _OrderDetailState extends State<OrderDetail> {
               provBurger.resetAll();
               provBurger.orderCreation = widget.order;
               provBurger.reOrderAdditional = widget.order['Addition'];
+              provBurger.spicy = provBurger.spicyLevel.indexOf(widget.order['Spicy']);
+              provBurger.note.text = widget.order['Note'];
               provNav.orderState = 'Addition';
               Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateBurger(back: false)));
             },

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,32 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                // height: MediaQuery.of(context).size.width*0.35,
+                enlargeCenterPage: true,
+                autoPlay: true,
+                aspectRatio: 3.2,
+                enableInfiniteScroll: true,
+                autoPlayAnimationDuration: const Duration(milliseconds: 300),
+                viewportFraction: 0.85,
+              ),
+              items: [
+                for (int i = 1; i < 3 ; i++)
+                // n Image of Slider
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 3, 0, 3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      image: AssetImage('assets/banner$i.png'),
+                      fit: BoxFit.cover,
+                    )
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10,),
             InkWell(
               onTap: () {
                 provBurger.resetAll();

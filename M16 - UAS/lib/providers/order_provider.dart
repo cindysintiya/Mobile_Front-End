@@ -22,6 +22,8 @@ class OrderProvider extends ChangeNotifier {
         'Minuman' : {'Coca-Cola': 8000},
         'Kentang Goreng' : {'Kecil': 6000}
       },
+      'Spicy' : 'Tidak pedas',
+      'Note' : '-',
       'FinalPrice': 39000,
       'Contact': {
         'Nama': 'Victoria',
@@ -58,6 +60,8 @@ class OrderProvider extends ChangeNotifier {
         'Kentang Goreng' : {'Besar': 12000},
         'Es Krim' : {'Vanila': 9000, 'Coklat': 9000, 'Stroberi': 9000}
       },
+      'Spicy' : 'Pedas gila',
+      'Note' : 'Tolong saus pedasnya dipisah aja ya. Makasihh',
       'FinalPrice': 90000,
       'Contact': {
         'Nama': 'Cindy',

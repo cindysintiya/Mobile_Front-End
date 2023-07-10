@@ -95,6 +95,43 @@ class _FinalBurgerState extends State<FinalBurger> {
                 );
               }).toList(),
             ),
+            const Divider(),
+            const SizedBox(height: 10,),
+            const Text('Level Kepedasan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('0'),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width*0.7,
+                  child: Slider(
+                    min: 0, max: 4, divisions: 4,
+                    value: provBurger.spicy,
+                    label: provBurger.spicyLevel[provBurger.spicy.toInt()],
+                    onChanged: (val) => provBurger.spicy = val.toInt()
+                  ),
+                ),
+                const Text('4'),
+              ],
+            ),
+            Text(provBurger.spicyLevel[provBurger.spicy.toInt()]),
+            const SizedBox(height: 5,),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+              child: Text('Catatan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+              child: TextField(
+                controller: provBurger.note,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                  hintText: '(Opsional) Tambahkan catatan terkait pesanan Anda disini ...'
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(

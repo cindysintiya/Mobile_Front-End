@@ -124,6 +124,19 @@ class BurgerProvider extends ChangeNotifier {
     _additional[val[0]]['option'][val[1]] = val[2];
     notifyListeners();
   }
+  
+  // level pedas
+  double _spicy = 0;
+  double get spicy => _spicy;
+  final List spicyLevel = ['Tidak pedas', 'Agak pedas', 'Pedas', 'Lumayan pedas', 'Pedas gila'];
+
+  set spicy(val) {
+    _spicy = val;
+    notifyListeners();
+  }
+
+  // catatan tambahan
+  TextEditingController note = TextEditingController();
 
   // FINAL ADDITION
   final Map _finalAddition = {};
@@ -218,7 +231,7 @@ class BurgerProvider extends ChangeNotifier {
   }
 
   // METODE PEMBAYARAN
-  List pembayaran = ['Pilih', 'OVO', 'GoPay', 'Dana', 'Kartu Kredit', 'Kartu Debit', 'COD'];
+  List pembayaran = ['Pilih', 'OVO', 'GoPay', 'Dana', 'Kartu Kredit', 'Kartu Debit'];
   String _selPembayaran = 'Pilih';
   String get selPembayaran => _selPembayaran;
   set changePembayaran(val) {
@@ -287,6 +300,13 @@ class BurgerProvider extends ChangeNotifier {
     for (var item in finalAddition.entries) {
       finalCreation['Addition'].addAll({item.key : item.value});
     }
+    finalCreation['Spicy'] = spicyLevel[spicy.toInt()];
+    if (note.text.trim().isEmpty) {
+      finalCreation['Note'] = '-';
+    }
+    else {
+      finalCreation['Note'] = note.text;
+    }
     double ttlPrice = 0;
     for (var item in finalAddition.values) {
       for (var prices in item.entries) {
@@ -315,6 +335,8 @@ class BurgerProvider extends ChangeNotifier {
     resetFinal();
     resetAddition();
     resetTime();
+    spicy = 0;
+    note.text = '';
     _saveUser = true;
     creationName.text = '';
     notifyListeners();

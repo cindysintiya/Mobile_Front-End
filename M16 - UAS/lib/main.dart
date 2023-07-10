@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:b_kreazi/providers/navigation_provider.dart';
@@ -7,6 +9,7 @@ import 'package:b_kreazi/providers/user_provider.dart';
 import 'package:b_kreazi/providers/notification_provider.dart';
 import 'package:b_kreazi/providers/officialmenu_provider.dart';
 import 'package:b_kreazi/providers/creation_provider.dart';
+import 'package:b_kreazi/providers/login_provider.dart';
 import 'package:b_kreazi/components/custom_color.dart';
 import 'package:b_kreazi/screens/home_screen.dart';
 import 'package:b_kreazi/screens/creation_screen.dart';
@@ -15,6 +18,7 @@ import 'package:b_kreazi/pages/user_profile.dart';
 import 'package:b_kreazi/pages/all_menu.dart';
 import 'package:b_kreazi/pages/notifications.dart';
 import 'package:b_kreazi/pages/my_kreazi.dart';
+import 'package:b_kreazi/pages/login_page.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -26,6 +30,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ChangeNotifierProvider(create: (_) => OfficialMenuProvider()),
       ChangeNotifierProvider(create: (_) => CreationProvider()),
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
     ],
     child: const MyApp()
     )
@@ -42,6 +47,7 @@ class MyApp extends StatelessWidget {
       title: 'B_Kreazi',
       theme: ThemeData(
         primarySwatch: myCustomColor(),
+        sliderTheme: const SliderThemeData(valueIndicatorTextStyle: TextStyle(color: Colors.white))
         // fontFamily: 'Gill Sans MT',
       ),
       home: const MyHomePage(),
@@ -67,6 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final provUser = Provider.of<UserProvider>(context);
     final provNotif = Provider.of<NotificationProvider>(context);
     final provOrder = Provider.of<OrderProvider>(context);
+    final provLogin = Provider.of<LoginProvider>(context);
+    final provBurger = Provider.of<BurgerProvider>(context);
     final List pages = [
       const Home(title: 'B_Kreazi'),
       Creation(title: 'Creation', search: searchVal,),
@@ -151,8 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         CircleAvatar(
                           radius: 30,
                           // child: ClipOval(child: Image.asset('assets/pics.jpg', fit: BoxFit.cover,)),
-                          backgroundColor: provUser.userInfo.isNotEmpty? provUser.userInfo['Gender'] == 'Laki-Laki'? Colors.blue : Colors.pink : Colors.black54,
-                          child: Text(provUser.userInfo.isEmpty? '?' : provUser.userInfo['Nama'][0], style:  const TextStyle(fontSize: 30, color: Colors.white),),
+                          backgroundColor: provUser.userInfo.isNotEmpty? provUser.img == null? provUser.userInfo['Gender'] == 'Laki-Laki'? Colors.blue : Colors.pink : Colors.black54 : null,
+                          child: provUser.img == null? Text(provUser.userInfo.isEmpty? '?' : provUser.userInfo['Nama'][0], style:  const TextStyle(fontSize: 30, color: Colors.white),) : ClipOval(child: Image.file(File(provUser.img!.path), width: 60, height: 60, fit: BoxFit.cover,))
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
@@ -171,6 +179,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               )
             ),
+            ListTile(
+              leading: const Icon(Icons.flash_on_rounded),
+              title: const Text('Pesan cepat', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Langsung ke halaman Custom Burger'),
+              trailing: Switch(
+                value: provOrder.quickOrder, 
+                onChanged: (val) => provOrder.quickOrder = val,
+                activeColor: myCustomColor(),
+                activeTrackColor: myCustomColor()[200],
+              ),
+              onTap: () {
+                provOrder.quickOrder = !provOrder.quickOrder;
+              },
+            ),
+            const Divider(),
             ListTile(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile(title: 'Profil Pengguna',)));
@@ -223,20 +246,59 @@ class _MyHomePageState extends State<MyHomePage> {
               subtitle: const Text('Kreazi saya, Kreazi Favorit'),
             ),
             const Divider(),
+            provLogin.isLoggedIn? 
             ListTile(
-              leading: const Icon(Icons.flash_on_rounded),
-              title: const Text('Pesan cepat', style: TextStyle(fontSize: 16),),
-              subtitle: const Text('Langsung ke halaman Custom Burger'),
-              trailing: Switch(
-                value: provOrder.quickOrder, 
-                onChanged: (val) => provOrder.quickOrder = val,
-                activeColor: myCustomColor(),
-                activeTrackColor: myCustomColor()[200],
-              ),
               onTap: () {
-                provOrder.quickOrder = !provOrder.quickOrder;
+                // provLogin.loggedOut();
+                showDialog(
+                  context: context, 
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Keluar dari Akun Kreazi', style: TextStyle(fontWeight: FontWeight.bold),),
+                      content: const Text('Anda akan Log Out dari akun Kreazi Anda. Tetap tinggalkan data profile Anda?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }, 
+                          child: const Text('Batalkan')
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            provLogin.loggedOut();
+                            Navigator.pop(context);
+                          }, 
+                          child: const Text('Keluar saja')
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            provUser.clearUser();
+                            provBurger.resetContactInfo();
+                            provLogin.loggedOut();
+                            provBurger.nama.text = '';
+                            provBurger.noHp.text = '';
+                            provBurger.changeGender = '';
+                            Navigator.pop(context);
+                          }, 
+                          child: const Text('Hapus data')
+                        )
+                      ],
+                    );
+                  }
+                );
               },
-            )
+              leading: const Icon(Icons.logout_rounded),
+              title: const Text('Log Out', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Keluar'),
+            ) :
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+              leading: const Icon(Icons.login),
+              title: const Text('Log In', style: TextStyle(fontSize: 16),),
+              subtitle: const Text('Masuk ke akun Kreazi Anda'),
+            ),
           ],
         ),
       ),

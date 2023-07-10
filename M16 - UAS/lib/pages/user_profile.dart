@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -39,23 +41,32 @@ class _UserProfileState extends State<UserProfile> {
                   return Wrap(
                     children: [
                       TextButton(
-                        onPressed: () {Navigator.pop(context);},
+                        onPressed: () {
+                          provUser.img = null;
+                          Navigator.pop(context);
+                        },
                         child: Center(child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(8),
                           child: Text('Default', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          provUser.pickedImage(false);
+                          Navigator.pop(context);
+                        },
                         child: Center(child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(8),
                           child: Text('Buka Kamera', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          provUser.pickedImage(true);
+                          Navigator.pop(context);
+                        },
                         child: Center(child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(8),
                           child: Text('Buka Galeri', style: TextStyle(color: myCustomDarkerColor(), fontSize: 17),),
                         ))
                       ),
@@ -76,8 +87,9 @@ class _UserProfileState extends State<UserProfile> {
               radius: 40,
               backgroundColor: !provUser.edit? Colors.black38 : null,
               foregroundColor: !provUser.edit? Colors.white : null,
-              child: provUser.userInfo.isNotEmpty && provUser.userInfo['Nama'].isNotEmpty? 
+              child: provUser.userInfo.isNotEmpty && provUser.userInfo['Nama'].isNotEmpty && provUser.img == null? 
                 Text(provUser.userInfo['Nama'][0], style: const TextStyle(fontSize: 30),) : 
+                provUser.img != null? ClipOval(child: Image.file(File(provUser.img!.path), width: 75, height: 75, fit: BoxFit.cover,)) : 
                 const Icon(Icons.camera_alt_rounded, size: 30,),
             ),
           ),
@@ -207,105 +219,107 @@ class _UserProfileState extends State<UserProfile> {
         tooltip: provUser.edit? 'Simpan data' : 'Edit data',
         child: provUser.edit? const Icon(Icons.check_rounded) : const Icon(Icons.edit_rounded),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            bottomSheets(context),
-            const SizedBox(height: 15,),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              columnWidths: const {
-                0 : IntrinsicColumnWidth(),
-              },
-              children: [
-                TableRow(
-                  children: [
-                    const Text('Username', style: TextStyle(fontSize: 16.5),),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 5),
-                      child: TextField(
-                        controller: provUser.nama,
-                        enabled: provUser.edit,
-                        maxLength: 20,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
-                          contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                          labelText: 'Nama Anda',
-                          errorText: provUser.nama.text.isEmpty && provUser.edit? 'Wajib Diisi' : null
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              bottomSheets(context),
+              const SizedBox(height: 15,),
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                columnWidths: const {
+                  0 : IntrinsicColumnWidth(),
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      const Text('Username', style: TextStyle(fontSize: 16.5),),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 5),
+                        child: TextField(
+                          controller: provUser.nama,
+                          enabled: provUser.edit,
+                          maxLength: 20,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                            contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            labelText: 'Nama Anda',
+                            errorText: provUser.nama.text.isEmpty && provUser.edit? 'Wajib Diisi' : null
+                          ),
                         ),
-                      ),
-                    )
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    const Text('Phone Number', style: TextStyle(fontSize: 16.5),),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 5),
-                      child: TextFormField(
-                        controller: provUser.noHp,
-                        enabled: provUser.edit,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9*#+]'))
-                        ],
-                        maxLength: 15,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
-                          contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                          labelText: 'Nomor HP',
-                          errorText: provUser.noHp.text.isEmpty && provUser.edit? 'Wajib Diisi' : null,
+                      )
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      const Text('Phone Number', style: TextStyle(fontSize: 16.5),),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 5),
+                        child: TextFormField(
+                          controller: provUser.noHp,
+                          enabled: provUser.edit,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9*#+]'))
+                          ],
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                            contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            labelText: 'Nomor HP',
+                            errorText: provUser.noHp.text.isEmpty && provUser.edit? 'Wajib Diisi' : null,
+                          ),
+                          keyboardType: TextInputType.phone,
                         ),
-                        keyboardType: TextInputType.phone,
-                      ),
-                    )
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    const Text('Jenis Kelamin', style: TextStyle(fontSize: 16.5),),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
-                      child: Wrap(
-                        alignment: WrapAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Row(
+                      )
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      const Text('Jenis Kelamin', style: TextStyle(fontSize: 16.5),),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
+                        child: Wrap(
+                          alignment: WrapAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Radio(
+                                    value: 'Laki-Laki', 
+                                    groupValue: provUser.gender, 
+                                    onChanged: provUser.edit? (val) {
+                                      provUser.changeGender = val;
+                                    } : null
+                                  ),
+                                  const Text('Laki-Laki'),
+                                ],
+                              ),
+                            ),
+                            Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Radio(
-                                  value: 'Laki-Laki', 
+                                  value: 'Perempuan', 
                                   groupValue: provUser.gender, 
                                   onChanged: provUser.edit? (val) {
                                     provUser.changeGender = val;
                                   } : null
                                 ),
-                                const Text('Laki-Laki'),
+                                const Text('Perempuan'),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Radio(
-                                value: 'Perempuan', 
-                                groupValue: provUser.gender, 
-                                onChanged: provUser.edit? (val) {
-                                  provUser.changeGender = val;
-                                } : null
-                              ),
-                              const Text('Perempuan'),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ]
-                ),
-              ]
-            ),
-          ],
+                    ]
+                  ),
+                ]
+              ),
+            ],
+          ),
         ),
       ),
     );

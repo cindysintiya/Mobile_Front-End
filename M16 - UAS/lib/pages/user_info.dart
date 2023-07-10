@@ -10,6 +10,7 @@ import 'package:b_kreazi/providers/user_provider.dart';
 import 'package:b_kreazi/providers/notification_provider.dart';
 import 'package:b_kreazi/providers/creation_provider.dart';
 import 'package:b_kreazi/providers/officialmenu_provider.dart';
+import 'package:b_kreazi/providers/login_provider.dart';
 import 'package:b_kreazi/components/custom_color.dart';
 
 class UserInfo extends StatefulWidget {
@@ -31,6 +32,7 @@ class _UserInfoState extends State<UserInfo> {
     final provNotif = Provider.of<NotificationProvider>(context);
     final provCreate = Provider.of<CreationProvider>(context);
     final provMenu = Provider.of<OfficialMenuProvider>(context);
+    final provLogin = Provider.of<LoginProvider>(context);
 
     return SingleChildScrollView(
       child: Padding(
@@ -140,7 +142,12 @@ class _UserInfoState extends State<UserInfo> {
                               DropdownMenuItem(
                                 value: item,
                                 child: Text(item),
-                              )
+                              ),
+                            DropdownMenuItem(
+                              value: 'COD',
+                              enabled: provLogin.isLoggedIn,
+                              child: provLogin.isLoggedIn? const Text('COD') :  const Text('COD (wajib login)', style: TextStyle(color: Colors.grey),),
+                            )
                           ], 
                           onChanged: (val) {provBurger.changePembayaran = val;},
                           icon: const Icon(Icons.keyboard_arrow_down),

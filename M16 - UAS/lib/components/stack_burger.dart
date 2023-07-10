@@ -14,7 +14,7 @@ class StackBurger extends StatefulWidget {
 class _StackBurgerState extends State<StackBurger> {
   @override
   Widget build(BuildContext context) {
-    double index = widget.source['TtlQty']-1;
+    int index = widget.source['TtlQty']-1;
     return Stack( 
       alignment: AlignmentDirectional.topCenter,
       children: [
