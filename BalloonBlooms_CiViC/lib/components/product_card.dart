@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/wishlist_provider.dart';
 import 'package:baloonblooms/screens/minggu7.dart';
 
 class ProductCard extends StatefulWidget {
-  const ProductCard({super.key, required this.product, required this.wishlist});
+  const ProductCard({super.key, required this.product});
   final List product;
-  final WishlistProvider wishlist;
+
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -35,7 +36,7 @@ class _ProductCardState extends State<ProductCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
-                child: LayoutBuilder(   // biar ukuran ikut mamak
+                child: LayoutBuilder(   // biar ukuran ikut parent
                   builder: (BuildContext context, BoxConstraints constraints) {
                     return Image.asset(
                       'assets/${products[i]['code']}.jpg', 
@@ -50,13 +51,13 @@ class _ProductCardState extends State<ProductCard> {
               Text('${products[i]['name']}', overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
               Stack(
                 children: [
-                  Text('Rp. ${products[i]['price']/1000}.000,-', style: const TextStyle(fontSize: 16),),
+                  Text('Rp. ${products[i]['price']~/1000}.000,-', style: const TextStyle(fontSize: 16),),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Align(
                       alignment: Alignment.bottomRight, 
                       child: provWishlist.wishlist.any((element) => element==products[i]['code'])?
-                        // kode produk cocok dgn salah satu aja value product code di wishlist  TT
+                        // kode produk cocok dgn salah satu aja value product code di wishlist
                         IconButton(
                           splashRadius: 1,
                           tooltip: 'Hapus dari Wishlist',
@@ -82,6 +83,8 @@ class _ProductCardState extends State<ProductCard> {
   
   @override
   Widget build(BuildContext context) {
-    return _buildCard(widget.product, widget.wishlist);
+    final provWishlist = Provider.of<WishlistProvider>(context);
+    
+    return _buildCard(widget.product, provWishlist);
   }
 }

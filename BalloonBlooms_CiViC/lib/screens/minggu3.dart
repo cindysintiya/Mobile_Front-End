@@ -131,7 +131,6 @@ class _ProductCommentState extends State<ProductComment> {
                             'kode_produk' : widget.product,
                             'nama' : provKomentar.nama.text.trim(),
                             'komentar' : provKomentar.komentar.text.trim(),
-                            // 'tgl' : '${DateTime.now().toString().split(' ')[0].split('-').reversed.join('-')} ${DateTime.now().toString().substring(11, 16)}'
                             'tgl' : DateFormat('dd-MM-yyy HH:mm').format(DateTime.now())
                           };
                           provKomentar.scrollCtrl.animateTo(

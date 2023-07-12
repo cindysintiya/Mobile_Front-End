@@ -1,9 +1,11 @@
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:baloonblooms/providers/login_provider.dart';
 import 'package:baloonblooms/components/custom_color.dart';
+import 'package:baloonblooms/components/minggu15.dart';
 import 'package:baloonblooms/screens/minggu4.dart';
 import 'package:baloonblooms/screens/minggu6.dart';
 
@@ -29,22 +31,6 @@ class _NavDrawerState extends State<NavDrawer> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // CircleAvatar(
-                //   radius: 30,
-                //   child: ClipOval(child: Image.asset('assets/profpics.jpg', fit: BoxFit.cover,)),
-                // ),
-                // CircleAvatar(
-                //   backgroundColor: Colors.black45,
-                //   radius: 30.5,
-                //   child: CircleAvatar(
-                //     radius: 30,
-                //     backgroundColor: myCustomColor(),
-                //     child: ClipOval(child: Padding(
-                //       padding: const EdgeInsets.all(5),
-                //       child: Image.asset('assets/flower.png', fit: BoxFit.cover,),
-                //     )),
-                //   ),
-                // ),
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -70,7 +56,7 @@ class _NavDrawerState extends State<NavDrawer> {
               ],
             )
           ),
-          ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
+          ListTile(
             onTap: () {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Wishlist(title: 'Wishlist',)));
@@ -78,13 +64,21 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: const Icon(Icons.favorite_rounded),
             title: const Text('Wishlist'),
           ),
-          ListTile(    // tampilan utk bwt 1 baris isi leading, title, trailing (kiri ke kanan)
+          ListTile(
             onTap: () {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Notifications(title: 'Notifikasi',)));
             },
             leading: const Icon(Icons.notifications_rounded),
             title: const Text('Notification'),
+          ),
+          ListTile(
+            onTap: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const WebViewInstagram()));
+            },
+            leading: const Icon(FontAwesomeIcons.instagram),
+            title: const Text('Social Media'),
           ),
           ListTile(
             onTap: prov.userInfo['username']=='-'? () {
@@ -115,50 +109,52 @@ class _LoginTabBarState extends State<LoginTabBar> {
     final prov = Provider.of<LoginProvider>(context);
 
     tabBody(TextField sisipan, ElevatedButton loginCheck) {
-      return Column(  // phone
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextField(
-            controller: prov.username,
-            decoration: InputDecoration(
-              icon: const Icon(Icons.person),
-              hintText: 'Username Anda disini',
-              label: const Text('Username'),
-              errorText: prov.status != 'new' && prov.username.text.trim().isEmpty? 'Wajib diisi' : prov.username.text.trim().toLowerCase() == '-'? 'Username invalid' : null
-            ),
-            maxLength: 15,
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(' ')
-            ],
-          ),
-          TextField(
-            controller: prov.fullname,
-            decoration: InputDecoration(
-              icon: const Icon(Icons.card_membership_rounded),
-              hintText: 'Nama Lengkap Anda disini',
-              label: const Text('Fullname'),
-              errorText: prov.status != 'new' && prov.fullname.text.trim().isEmpty? 'Wajib diisi' : prov.fullname.text.trim().toLowerCase() == '-'? 'Fullname invalid' : null
-            ),
-            maxLength: 17,
-          ),
-          sisipan,
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    prov.logout();
-                  }, 
-                  child: const Text('Batal')
-                ),
-                loginCheck
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: prov.username,
+              decoration: InputDecoration(
+                icon: const Icon(Icons.person),
+                hintText: 'Username Anda disini',
+                label: const Text('Username'),
+                errorText: prov.status != 'new' && prov.username.text.trim().isEmpty? 'Wajib diisi' : prov.username.text.trim().toLowerCase() == '-'? 'Username invalid' : null
+              ),
+              maxLength: 15,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(' ')
               ],
             ),
-          )
-        ],
+            TextField(
+              controller: prov.fullname,
+              decoration: InputDecoration(
+                icon: const Icon(Icons.card_membership_rounded),
+                hintText: 'Nama Lengkap Anda disini',
+                label: const Text('Fullname'),
+                errorText: prov.status != 'new' && prov.fullname.text.trim().isEmpty? 'Wajib diisi' : prov.fullname.text.trim().toLowerCase() == '-'? 'Fullname invalid' : null
+              ),
+              maxLength: 17,
+            ),
+            sisipan,
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      prov.logout();
+                    }, 
+                    child: const Text('Batal')
+                  ),
+                  loginCheck
+                ],
+              ),
+            )
+          ],
+        ),
       );
     }
 

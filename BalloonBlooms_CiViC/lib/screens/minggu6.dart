@@ -41,27 +41,6 @@ class _NotificationsState extends State<Notifications> {
                     const Text('Belum dibaca', style: TextStyle(fontSize: 17),)
                   ],
                 ),
-                // DropdownButtonFormField(
-                //   value: provNotif.selectedType,
-                //   onChanged: (val) => provNotif.changeNotifType = val,
-                //   items: 
-                //     provNotif.notifType.map((tipe) {
-                //       return DropdownMenuItem(
-                //         value: tipe, 
-                //         child: Text(tipe, overflow: TextOverflow.ellipsis, softWrap: true,),
-                //       );
-                //     }).toList(),
-                //   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                //   icon: const Icon(Icons.keyboard_arrow_down),
-                //   focusColor: Colors.white,
-                //   decoration: const InputDecoration(
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                //     ),
-                //     filled: true,
-                //     fillColor: Colors.white,
-                //   ),
-                // ),
                 DropdownButton(
                   value: provNotif.selectedType,
                   onChanged: (val) => provNotif.changeNotifType = val,

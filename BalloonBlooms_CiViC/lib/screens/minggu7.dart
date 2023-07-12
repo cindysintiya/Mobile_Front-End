@@ -88,7 +88,7 @@ class _DetailProductState extends State<DetailProduct> {
                         )
                     ],
                   ),
-                  Text('Rp. ${widget.product['price']/1000}.000,-', style: const TextStyle(fontSize: 20),),
+                  Text('Rp. ${widget.product['price']~/1000}.000,-', style: const TextStyle(fontSize: 20),),
                   const Divider(thickness: 1.5,),
                   const Text('Include', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                   const SizedBox(height: 5,),

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,14 +28,17 @@ class _CarouselHomeState extends State<CarouselHome> {
       items: [
         for (int i = 1; i < 5 ; i++)
         // n Image of Slider
-        Container(
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            image: DecorationImage(
-              image: AssetImage('assets/BalloonBlooms$i.png'),
-              fit: BoxFit.cover,
-            )
+        GestureDetector(
+          onTap: i==4? () => Navigator.push(context, MaterialPageRoute(builder: (context) => const WebViewInstagram())) : null,
+          child: Container(
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              image: DecorationImage(
+                image: AssetImage('assets/BalloonBlooms$i.png'),
+                fit: BoxFit.cover,
+              )
+            ),
           ),
         ),
       ],
@@ -107,6 +111,25 @@ class _PortraitArtImgPickerState extends State<PortraitArtImgPicker> {
         label: const Text('Choose Image'),
         icon: const Icon(Icons.upload_rounded),
       )
+    );
+  }
+}
+
+class WebViewInstagram extends StatelessWidget {
+  const WebViewInstagram({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Instagram - WebView'),
+      ),
+      body: const SafeArea(
+        child: WebView(
+          initialUrl: 'https://instagram.com/balloonblooms_medan', 
+          javascriptMode: JavascriptMode.unrestricted,
+        )
+      ),
     );
   }
 }

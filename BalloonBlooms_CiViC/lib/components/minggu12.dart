@@ -31,7 +31,6 @@ class _WishlistCardState extends State<WishlistCard> {
           padding: const EdgeInsets.only(bottom: 6),
           child: Text('${widget.product['name']}', style: const TextStyle(fontWeight: FontWeight.bold),),
         ),
-        // subtitle: Text('Rp. ${widget.product['price']/1000}.000,-'),
         subtitle: Text('Include : ${widget.product['include'].join(', ')}'),
         trailing: IconButton(
           splashRadius: 15,

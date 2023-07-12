@@ -34,7 +34,6 @@ class _SnackBudgetState extends State<SnackBudget> {
                     onChanged: (val) => provCustom.changeBudget(acc.key, (val~/1000)*1000)
                   ),
                 ),
-                // Text('Rp. ${provCustom.budget[acc.key]~/1000}.000,-'),
               ],
             ) : null,
             onChanged: (val) => provCustom.accessories = acc.key

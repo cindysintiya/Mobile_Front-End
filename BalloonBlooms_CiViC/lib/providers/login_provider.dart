@@ -5,6 +5,7 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController fullname = TextEditingController();
   TextEditingController userphone = TextEditingController();
   TextEditingController usermail = TextEditingController();
+  
   int _activeTab = 0;
   int get activeTab => _activeTab;
   String _status = 'new';

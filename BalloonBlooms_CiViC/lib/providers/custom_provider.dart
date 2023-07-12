@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CustomProvider extends ChangeNotifier {
-  final List ballType = ['Choose Type', 'Original', 'Heart-Shaped', 'Star-Shaped'];
-  final List ribType = ['Choose Type', 'Satin Ribbon', 'Grossgrain Ribbon'];
-  final List colors = ['Choose Color', 'Red', 'Rose-Gold', 'Gold'];
+  final List ballType = ['Original', 'Heart-Shaped', 'Star-Shaped'];
+  final List ribType = ['Satin Ribbon', 'Grossgrain Ribbon'];
+  final List colors = ['Red', 'Rose-Gold', 'Gold'];
   Map _accessories = {'Doll-Bear': false, 'Flower': false, 'Snacks': false, 'Money': false};
   Map _budget = {'Doll-Bear': 50000, 'Flower': 50000, 'Snacks': 50000, 'Money': 50000};
-  final List cellophanes = ['Choose Color', 'Red', 'Pink', 'Purple', 'Blue', 'Nude', 'Green-Mint', 'Brown'];
+  final List cellophanes = ['Red', 'Pink', 'Purple', 'Blue', 'Nude', 'Green-Mint', 'Brown'];
   final List payMeth = ['Choose Payment', 'COD', 'M-Banking', 'E-Wallet', 'VA Transfer'];
 
   String _balloon = 'Choose Type';
@@ -35,22 +35,26 @@ class CustomProvider extends ChangeNotifier {
     _rColor = val;
     notifyListeners();
   }
+
   Map get accessories => _accessories;
   set accessories(val) {
     _accessories[val] = !accessories[val];
     notifyListeners();
   }
+
   String _cellophane = 'Choose Color';
   String get cellophane => _cellophane;
   set cellophane(val) {
     _cellophane = val;
     notifyListeners();
   }
+
   Map get budget => _budget;
   changeBudget(key, val) {
     _budget[key] = val;
     notifyListeners();
   }
+
   TextEditingController accNotes = TextEditingController();
   TextEditingController cardNotes = TextEditingController();
 

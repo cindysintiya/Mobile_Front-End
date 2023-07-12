@@ -3,9 +3,7 @@ import 'package:baloonblooms/components/custom_color.dart';  // import library c
 import 'package:baloonblooms/components/minggu9.dart';
 import 'package:baloonblooms/screens/minggu1.dart';
 import 'package:baloonblooms/screens/minggu2.dart';
-// import 'package:baloonblooms/screens/minggu4.dart';
 import 'package:baloonblooms/screens/minggu5.dart';
-// import 'package:baloonblooms/screens/minggu6.dart';
 import 'package:baloonblooms/screens/minggu11.dart';
 
 import 'package:provider/provider.dart';
@@ -28,7 +26,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // tambah provider(s) mu disini
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider()),
@@ -77,49 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
     final List pages = [
       const Home(title: 'Welcome to BalloonBlooms!'),
       Product(title: 'Product', search: provProduk.searchVal,),
-      // const Wishlist(title: 'Wishlist',),
-      // const Notifications(title: 'Notification'),
       const Feedbacks(title: 'Feedbacks'),
     ];
     return Scaffold(
       appBar: AppBar(
         title: pages[_currentIndex].title != 'Product'? Text(pages[_currentIndex].title) : 
-        // Container(
-        //   decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     border: Border.all(width: 0.5),
-        //     borderRadius: const BorderRadius.all(Radius.circular(10))
-        //   ),
-        //   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        //   margin: const EdgeInsets.all(20),
-        //   child: TextField(
-        //     controller: searchCtrl,
-        //     onChanged: (val) {
-        //       provProduk.searchVal = val;
-        //       provProduk.changeProduct = '';
-        //     },
-        //     onSubmitted: (val) {
-        //       provProduk.searchVal = val.trim();
-        //       provProduk.changeProduct = val.trim();
-        //     },
-        //     decoration: InputDecoration(
-        //       icon: const Icon(Icons.search_rounded),
-        //       suffixIcon: provProduk.searchVal.isEmpty? null : 
-        //         IconButton(icon: const Icon(Icons.clear_rounded), 
-        //           onPressed: () {
-        //             searchCtrl.text = '';
-        //             provProduk.searchVal = '';
-        //             provProduk.changeProduct = '';
-        //           },
-        //         ),
-        //       border: InputBorder.none,
-        //       disabledBorder: InputBorder.none,
-        //       hintText: 'Search Product ...',
-        //       hintStyle: const TextStyle(fontSize: 18)
-        //     ),
-        //     style: const TextStyle(fontSize: 17),
-        //   ),
-        // ),
         SizedBox (
           height: 55.0,
           child: Row(
@@ -182,16 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
             activeIcon: Icon(Icons.grid_view_rounded),
             label: 'Product', 
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.favorite_border_rounded), 
-          //   activeIcon: Icon(Icons.favorite_rounded),
-          //   label: 'Wishlist', 
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.notifications_none), 
-          //   activeIcon: Icon(Icons.notifications_rounded),
-          //   label: 'Notification', 
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.article_outlined), 
             activeIcon: Icon(Icons.article_rounded),

@@ -63,7 +63,7 @@ class _CustomProductState extends State<CustomProduct> {
                 children: [
                   Image.asset('assets/${widget.reference['code']}.jpg', width: MediaQuery.of(context).size.width/3, height: MediaQuery.of(context).size.width/2.6, fit: BoxFit.cover,),
                   const SizedBox(width: 10,),
-                  LayoutBuilder(   // biar ukuran ikut mamak
+                  LayoutBuilder(   // biar ukuran ikut parent
                     builder: (BuildContext context, BoxConstraints constraints) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class _CustomProductState extends State<CustomProduct> {
                             child: Text(widget.reference['name'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.5),)
                           ),
                           const SizedBox(height: 2,),
-                          Text('Rp. ${widget.reference['price']/1000}.000,-', style: const TextStyle(fontSize: 16),),
+                          Text('Rp. ${widget.reference['price']~/1000}.000,-', style: const TextStyle(fontSize: 16),),
                           const SizedBox(height: 5,),
                           const Text('Include :'),
                           Column(
@@ -121,7 +121,10 @@ class _CustomProductState extends State<CustomProduct> {
                       child: DropdownButtonFormField(
                         value: provCustom.balloon,
                         onChanged: (val) => provCustom.balloon = val,
-                        items: [ for (var tipe in provCustom.ballType) DropdownMenuItem(value: tipe, child: Text(tipe)) ],
+                        items: [ 
+                          const DropdownMenuItem(value: 'Choose Type', enabled: false, child: Text('Choose Type', style: TextStyle(color: Colors.black26),)),
+                          for (var tipe in provCustom.ballType) DropdownMenuItem(value: tipe, child: Text(tipe)) 
+                          ],
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         icon: const Icon(Icons.keyboard_arrow_down),
                         hint: const Text('Balloon Type'),
@@ -135,7 +138,10 @@ class _CustomProductState extends State<CustomProduct> {
                       child: DropdownButtonFormField(
                         value: provCustom.bColor,
                         onChanged: (val) => provCustom.bColor = val,
-                        items: [ for (var col in provCustom.colors) DropdownMenuItem(value: col, child: Text(col)) ],
+                        items: [ 
+                          const DropdownMenuItem(value: 'Choose Color', enabled: false, child: Text('Choose Color', style: TextStyle(color: Colors.black26),)),
+                          for (var col in provCustom.colors) DropdownMenuItem(value: col, child: Text(col)) 
+                        ],
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         icon: const Icon(Icons.keyboard_arrow_down),
                         hint: const Text('Balloon Color'),
@@ -175,7 +181,10 @@ class _CustomProductState extends State<CustomProduct> {
                       child: DropdownButtonFormField(
                         value: provCustom.ribbon,
                         onChanged: (val) => provCustom.ribbon = val,
-                        items: [ for (var type in provCustom.ribType) DropdownMenuItem(value: type, child: Text(type)) ],
+                        items: [ 
+                          const DropdownMenuItem(value: 'Choose Type', enabled: false, child: Text('Choose Type', style: TextStyle(color: Colors.black26),)),
+                          for (var type in provCustom.ribType) DropdownMenuItem(value: type, child: Text(type)) 
+                        ],
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         icon: const Icon(Icons.keyboard_arrow_down),
                         hint: const Text('Ribbon Type'),
@@ -189,7 +198,10 @@ class _CustomProductState extends State<CustomProduct> {
                       child: DropdownButtonFormField(
                         value: provCustom.rColor,
                         onChanged: (val) => provCustom.rColor = val,
-                        items: [ for (var col in provCustom.colors) DropdownMenuItem(value: col, child: Text(col)) ],
+                        items: [ 
+                          const DropdownMenuItem(value: 'Choose Color', enabled: false, child: Text('Choose Color', style: TextStyle(color: Colors.black26),)),
+                          for (var col in provCustom.colors) DropdownMenuItem(value: col, child: Text(col)) 
+                        ],
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         icon: const Icon(Icons.keyboard_arrow_down),
                         hint: const Text('Ribbon Color'),
@@ -228,7 +240,10 @@ class _CustomProductState extends State<CustomProduct> {
                     child: DropdownButtonFormField(
                       value: provCustom.cellophane,
                       onChanged: (val) => provCustom.cellophane = val,
-                      items: [ for (var cello in provCustom.cellophanes) DropdownMenuItem(value: cello, child: Text(cello)) ],
+                      items: [ 
+                        const DropdownMenuItem(value: 'Choose Color', enabled: false, child: Text('Choose Color', style: TextStyle(color: Colors.black26),)),
+                        for (var cello in provCustom.cellophanes) DropdownMenuItem(value: cello, child: Text(cello)) 
+                      ],
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       hint: const Text('Cellophane Color'),
@@ -262,10 +277,8 @@ class _CustomProductState extends State<CustomProduct> {
               message: 'View Full Picture',
               child: GestureDetector(
                 onTap: () => 
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(img: widget.reference['code'],))),
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(source: 'file', img: provCustom.img!.path,))),
                 child: 
-                // Image.asset('assets/${widget.reference['code']}.jpg', height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
                 Image.file(File(provCustom.img!.path), height: MediaQuery.of(context).size.width*0.5, fit: BoxFit.cover,)
               ),
             )

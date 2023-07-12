@@ -52,14 +52,6 @@ class _UpdateAvailableState extends State<UpdateAvailable> {
                 updateStatus = true;
               });
             });
-            // setState(() {
-            //   updateStatus = true;
-            // });
-            // if (mounted) {
-            //   Navigator.pop(context);   // hilangkan dialog box
-            //   ScaffoldMessenger.of(context).showSnackBar(showMySnackBar(context));
-            //   ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            // }
           }, 
           child: const Text('Update Now')
         ),

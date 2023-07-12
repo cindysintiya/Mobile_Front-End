@@ -100,7 +100,6 @@ class FeedbackProvider extends ChangeNotifier {
 
   spotlight() {
     _reviews[0]['spotlight'] = !_reviews[0]['spotlight'];
-    // _reviews.sort((a, b) => a['tgl'].toString().compareTo(b['tgl'].toString()));
     _reviews.sort((a, b) => a['spotlight'].toString().length.compareTo(b['spotlight'].toString().length));
     notifyListeners();
   }
